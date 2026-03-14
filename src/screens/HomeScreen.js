@@ -4,6 +4,7 @@ import BrainCharacter from '../components/BrainCharacter';
 import DoomscrollingDetector from '../native/DoomscrollingDetector';
 import { colors, globalStyles } from '../theme';
 import { useAlert } from '../context/AlertContext';
+import { useTokens } from '../context/TokenContext';
 
 const HomeScreen = ({ navigation }) => {
   const [index, setIndex] = useState(100);
@@ -13,6 +14,7 @@ const HomeScreen = ({ navigation }) => {
   // Fade anim for prompts
   const promptFade = useState(new Animated.Value(0))[0];
   const showAlert = useAlert();
+  const { tokens } = useTokens();
 
   useEffect(() => {
     // Read the current threshold from the native mock once it loads
@@ -76,8 +78,15 @@ const HomeScreen = ({ navigation }) => {
     <KeyboardAvoidingView style={globalStyles.container} behavior="padding">
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.header}>
-          <Text style={globalStyles.title}>Hey there! ✨</Text>
-          <Text style={globalStyles.subtitle}>Your Brainrot Index: {index}/100</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+            <View>
+              <Text style={globalStyles.title}>Hey there! ✨</Text>
+              <Text style={globalStyles.subtitle}>Your Brainrot Index: {index}/100</Text>
+            </View>
+            <View style={styles.tokenBadge}>
+              <Text style={styles.tokenText}>{tokens} 🍒</Text>
+            </View>
+          </View>
         </View>
 
         <BrainCharacter state={stateCat} index={index} />
@@ -137,6 +146,17 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     paddingHorizontal: 20,
     paddingBottom: 10,
+  },
+  tokenBadge: {
+    backgroundColor: colors.primary,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 20,
+  },
+  tokenText: {
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   statusCard: {
     ...globalStyles.card,

@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Switch } from 'react-native';
 import { colors, globalStyles } from '../theme';
 import { useAlert } from '../context/AlertContext';
+import { useTokens } from '../context/TokenContext';
 
 const RewardsScreen = () => {
-  const [tokens, setTokens] = useState(150); // mock
+  const { tokens, spendTokens } = useTokens();
   const [useWallet, setUseWallet] = useState(false);
   const showAlert = useAlert();
 
@@ -21,7 +22,10 @@ const RewardsScreen = () => {
         `Do you want to spend ${item.cost} tokens on ${item.title}?`,
         [
           { text: "Cancel", style: "cancel" },
-          { text: "Yes!", onPress: () => setTokens(t => t - item.cost) }
+          { text: "Yes!", onPress: () => {
+             spendTokens(item.cost);
+             showAlert("Success! 🎒", `You have successfully bought ${item.title}!`);
+          }}
         ]
       );
     } else {

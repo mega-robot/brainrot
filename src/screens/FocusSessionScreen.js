@@ -4,6 +4,7 @@ import DoomscrollingDetector from '../native/DoomscrollingDetector';
 import BrainCharacter from '../components/BrainCharacter';
 import { colors, globalStyles } from '../theme';
 import { useAlert } from '../context/AlertContext';
+import { useTokens } from '../context/TokenContext';
 
 const FocusSessionScreen = ({ navigation }) => {
   const [isActive, setIsActive] = useState(false);
@@ -14,6 +15,7 @@ const FocusSessionScreen = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState(25 * 60);
 
   const showAlert = useAlert();
+  const { addTokens } = useTokens();
 
   useEffect(() => {
     let interval = null;
@@ -76,6 +78,7 @@ const FocusSessionScreen = ({ navigation }) => {
     
     // Earn 1 token per 1 minute focused!
     const tokensEarned = parseInt(inputMinutes, 10);
+    addTokens(tokensEarned);
     
     showAlert(
       "Focus Complete! 🌟", 

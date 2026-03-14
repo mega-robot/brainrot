@@ -4,6 +4,7 @@ import BrainCharacter from '../components/BrainCharacter';
 import DoomscrollingDetector from '../native/DoomscrollingDetector';
 import { colors, globalStyles } from '../theme';
 import { useAlert } from '../context/AlertContext';
+import { useTokens } from '../context/TokenContext';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Uses EXPO_PUBLIC environment variables automatically bundled by Expo
@@ -17,6 +18,7 @@ const InterventionScreen = ({ navigation }) => {
   const [isTyping, setIsTyping] = useState(false);
   const scrollViewRef = useRef();
   const showAlert = useAlert();
+  const { addTokens } = useTokens();
 
   // Initialize Chat Session securely
   const getChatSession = () => {
@@ -45,11 +47,12 @@ CRITICAL INSTRUCTION: Once the user provides a good reflection and explicitly ag
   }, []);
 
   const endIntervention = () => {
+    addTokens(5);
     showAlert(
       "Good Job Reflecting! ✨", 
       "You talked it out with your brain! We've rewarded you with +30 focus points and 5 Tokens for breaking the cycle. Let's get back on track!",
       [{ text: "Okay", onPress: () => {
-         DoomscrollingDetector.updateIndex(50);
+         DoomscrollingDetector.updateIndex(30);
          navigation.goBack();
       }}]
     );

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import { colors, globalStyles } from '../theme';
 import { useAlert } from '../context/AlertContext';
 
-const SquadsScreen = () => {
+const SquadsScreen = ({ navigation }) => {
   const [squads, setSquads] = useState([
     { id: '1', name: 'Study Buddies 📚', members: 4, hours: 120 },
     { id: '2', name: 'Anti-Doomscroll Club 🛡️', members: 12, hours: 450 },
@@ -14,13 +14,13 @@ const SquadsScreen = () => {
     showAlert("Joined! 🤝", "You successfully joined the new squad!");
   };
 
-  const startGroupSession = (squadName) => {
+  const startGroupSession = (item) => {
     showAlert(
       "Sync Focus Session 🌙", 
-      `Start a 1 hour focus session with ${squadName}? If anyone scrolls, the squad loses their streak!`,
+      `Start a focus session with ${item.name}? If anyone scrolls, the squad loses their streak!`,
       [
         { text: "Not yet", style: "cancel" },
-        { text: "Yes, start", onPress: () => showAlert("Session Started!", "No distractions anywhere!") }
+        { text: "Yes, start", onPress: () => navigation.navigate('SquadSession', { squadName: item.name, membersCount: item.members }) }
       ]
     );
   };
@@ -46,7 +46,7 @@ const SquadsScreen = () => {
             
             <TouchableOpacity 
               style={styles.actionBtn}
-              onPress={() => startGroupSession(item.name)}
+              onPress={() => startGroupSession(item)}
             >
               <Text style={styles.actionBtnText}>Start Sync Session 🚀</Text>
             </TouchableOpacity>

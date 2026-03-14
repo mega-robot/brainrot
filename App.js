@@ -11,10 +11,12 @@ import RewardsScreen from './src/screens/RewardsScreen';
 import SquadsScreen from './src/screens/SquadsScreen';
 import ReflectionScreen from './src/screens/ReflectionScreen';
 import InterventionScreen from './src/screens/InterventionScreen';
+import SquadSessionScreen from './src/screens/SquadSessionScreen';
 
 import DoomscrollingDetector from './src/native/DoomscrollingDetector';
 import { colors } from './src/theme';
 import { AlertProvider } from './src/context/AlertContext';
+import { TokenProvider } from './src/context/TokenContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -73,8 +75,9 @@ export default function App() {
   }, []);
 
   return (
-    <AlertProvider>
-      <NavigationContainer>
+    <TokenProvider>
+      <AlertProvider>
+        <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="MainTabs" component={MainTabs} />
           <Stack.Screen 
@@ -87,8 +90,14 @@ export default function App() {
             component={InterventionScreen} 
             options={{ presentation: 'fullScreenModal' }}
           />
+          <Stack.Screen 
+            name="SquadSession" 
+            component={SquadSessionScreen} 
+            options={{ presentation: 'fullScreenModal' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
-    </AlertProvider>
+      </AlertProvider>
+    </TokenProvider>
   );
 }
