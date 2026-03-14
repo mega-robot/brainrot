@@ -32,7 +32,7 @@ function MainTabs({ route }) {
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textLight,
-        tabBarLabelStyle: { fontSize: 11, fontWeight: 'bold', textTransform: 'none' },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: 'bold', textTransform: 'none', textAlign: 'center' },
         tabBarStyle: {
           backgroundColor: colors.white,
           elevation: 10,
@@ -43,35 +43,35 @@ function MainTabs({ route }) {
         tabBarIndicatorStyle: { backgroundColor: colors.accent, height: 4, borderRadius: 2 },
       }}
     >
-      <Tab.Screen 
-        name="Home" 
-        component={HomeScreen} 
-        options={{ tabBarLabel: '🧠 Hub' }}
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ tabBarLabel: '🧠\nHub' }}
       />
-      <Tab.Screen 
-        name="DAOs" 
-        component={SquadsScreen} 
-        options={{ tabBarLabel: '👥 Squads' }}
+      <Tab.Screen
+        name="DAOs"
+        component={SquadsScreen}
+        options={{ tabBarLabel: '👥\nSquads' }}
       />
-      <Tab.Screen 
-        name="Network" 
-        component={QACommunityScreen} 
-        options={{ tabBarLabel: '🌐 Forum' }}
+      <Tab.Screen
+        name="Network"
+        component={QACommunityScreen}
+        options={{ tabBarLabel: '🌐\nForum' }}
       />
-      <Tab.Screen 
-        name="dApps" 
-        component={RewardsScreen} 
-        options={{ tabBarLabel: '🎁 Rewards' }}
+      <Tab.Screen
+        name="dApps"
+        component={RewardsScreen}
+        options={{ tabBarLabel: '🎁\nPrizes' }}
       />
-      <Tab.Screen 
-        name="Vent" 
-        component={ReflectionScreen} 
-        options={{ tabBarLabel: '💭 Vent' }}
+      <Tab.Screen
+        name="Vent"
+        component={ReflectionScreen}
+        options={{ tabBarLabel: '💭\nVent' }}
       />
-      <Tab.Screen 
-        name="Identity" 
-        component={Web3ProfileScreen} 
-        options={{ tabBarLabel: '👻 Profile' }}
+      <Tab.Screen
+        name="Identity"
+        component={Web3ProfileScreen}
+        options={{ tabBarLabel: '👻\nProfile' }}
       />
     </Tab.Navigator>
   );
@@ -88,7 +88,7 @@ export default function App() {
         Alert.alert("Permissions needed", "We need accessibility permissions to detect doomscrolling patterns");
       }
     };
-    
+
     const checkFirstLaunch = async () => {
       try {
         const hasLaunched = await AsyncStorage.getItem('hasLaunchedBeforeApp');
@@ -102,7 +102,7 @@ export default function App() {
         setInitialRoute('Home');
       }
     };
-    
+
     setupServices();
     checkFirstLaunch();
   }, []);
@@ -113,25 +113,25 @@ export default function App() {
     <TokenProvider>
       <AlertProvider>
         <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="MainTabs" component={MainTabs} initialParams={{ initialRouteName: initialRoute }} />
-          <Stack.Screen 
-            name="FocusSession" 
-            component={FocusSessionScreen} 
-            options={{ presentation: 'fullScreenModal' }}
-          />
-          <Stack.Screen 
-            name="InterventionScreen" 
-            component={InterventionScreen} 
-            options={{ presentation: 'fullScreenModal' }}
-          />
-          <Stack.Screen 
-            name="SquadSession" 
-            component={SquadSessionScreen} 
-            options={{ presentation: 'fullScreenModal' }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="MainTabs" component={MainTabs} initialParams={{ initialRouteName: initialRoute }} />
+            <Stack.Screen
+              name="FocusSession"
+              component={FocusSessionScreen}
+              options={{ presentation: 'fullScreenModal' }}
+            />
+            <Stack.Screen
+              name="InterventionScreen"
+              component={InterventionScreen}
+              options={{ presentation: 'fullScreenModal' }}
+            />
+            <Stack.Screen
+              name="SquadSession"
+              component={SquadSessionScreen}
+              options={{ presentation: 'fullScreenModal' }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
       </AlertProvider>
     </TokenProvider>
   );

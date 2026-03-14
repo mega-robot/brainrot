@@ -120,8 +120,8 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Scroll Limit Configuration */}
         <View style={styles.settingsCard}>
-          <Text style={styles.settingsLabel}>App Limit Tracker 🛡️</Text>
-          <Text style={styles.settingsDesc}>Trigger intervention check-in if another app stays active over your limit (Smart Contract Enforced):</Text>
+          <Text style={styles.settingsLabel}>Short-Form Content Limit 🛡️</Text>
+          <Text style={styles.settingsDesc}>Trigger intervention check-in if you doomscroll short-form content (like YT Shorts, IG Reels) over your limit:</Text>
           <View style={styles.inputRow}>
             <TextInput
               style={styles.thresholdInput}

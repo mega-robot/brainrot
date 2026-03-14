@@ -10,25 +10,25 @@ const RewardsScreen = () => {
   const [walletConnected, setWalletConnected] = useState(false);
   const showAlert = useAlert();
 
-  const achievements = [
+  const [achievements, setAchievements] = useState([
     { id: '1', title: 'First Focus Session ✨', desc: 'Completed your first focus session.', cost: 0, unlocked: true },
     { id: '2', title: 'Doomscroll Breaker 🛡️', desc: 'Survived your first intervention.', cost: 50, unlocked: false },
     { id: '3', title: '7 Day Streak 🔥', desc: 'Focused every day for a week.', cost: 150, unlocked: false },
     { id: '4', title: 'Squad Champion 🤝', desc: 'Completed a squad focus without failing.', cost: 200, unlocked: false },
     { id: '5', title: 'Deep Work Master 🕰️', desc: 'Reached 50 hours of total focus.', cost: 1000, unlocked: false },
-  ];
+  ]);
 
-  const digitalGoods = [
-    { id: '101', title: 'ADHD Life Planner 📓', desc: 'A beautiful printable PDF to organize your day.', cost: 200, link: 'https://example.com/planner' },
-    { id: '102', title: 'Notion Habit Tracker 📊', desc: 'Minimalist habit tracking template for Notion.', cost: 350, link: 'https://example.com/notion' },
-    { id: '103', title: 'Dopamine Detox Guide 🌿', desc: 'A step-by-step eBook to reset your brain.', cost: 500, link: 'https://example.com/ebook' },
-  ];
+  const [digitalGoods, setDigitalGoods] = useState([
+    { id: '101', title: 'ADHD Life Planner 📓', desc: 'A beautiful printable PDF to organize your day.', cost: 200, link: 'https://example.com/planner', unlocked: false },
+    { id: '102', title: 'Notion Habit Tracker 📊', desc: 'Minimalist habit tracking template for Notion.', cost: 350, link: 'https://example.com/notion', unlocked: false },
+    { id: '103', title: 'Dopamine Detox Guide 🌿', desc: 'A step-by-step eBook to reset your brain.', cost: 500, link: 'https://example.com/ebook', unlocked: false },
+  ]);
 
-  const courses = [
-    { id: '201', title: '50% Off UX Design Course 🎨', desc: 'Master UI/UX with this exclusive discount.', cost: 800, link: 'https://example.com/ux-course' },
-    { id: '202', title: 'Intro to Python (Free Access) 🐍', desc: 'Unlock a premium beginner python course.', cost: 1200, link: 'https://example.com/python' },
-    { id: '203', title: 'Learn Spanish (1 Mo Free) 🇪🇸', desc: '30 days premium access to language learning app.', cost: 1500, link: 'https://example.com/spanish' },
-  ];
+  const [courses, setCourses] = useState([
+    { id: '201', title: '50% Off UX Design Course 🎨', desc: 'Master UI/UX with this exclusive discount.', cost: 800, link: 'https://example.com/ux-course', unlocked: false },
+    { id: '202', title: 'Intro to Python (Free Access) 🐍', desc: 'Unlock a premium beginner python course.', cost: 1200, link: 'https://example.com/python', unlocked: false },
+    { id: '203', title: 'Learn Spanish (1 Mo Free) 🇪🇸', desc: '30 days premium access to language learning app.', cost: 1500, link: 'https://example.com/spanish', unlocked: false },
+  ]);
 
   const handlePurchase = (item, type) => {
     if (tokens >= item.cost) {
@@ -44,13 +44,17 @@ const RewardsScreen = () => {
                  { text: "Go to Reward", onPress: () => Linking.openURL(item.link) },
                  { text: "Close", style: "cancel" }
                ]);
+               if (type === 'digital') {
+                 setDigitalGoods(items => items.map(d => d.id === item.id ? { ...d, unlocked: true } : d));
+               } else if (type === 'course') {
+                 setCourses(items => items.map(c => c.id === item.id ? { ...c, unlocked: true } : c));
+               }
              } else {
                const mintMsg = walletConnected 
                  ? "You have successfully minted this rare NFT achievement to your Web3 wallet address! 🔗" 
                  : "You have unlocked this badge! Connect your Web3 wallet later to mint it as an NFT.";
                showAlert("Success! 🏅", mintMsg);
-               // Quick hack to force rerender by mutating the data safely
-               item.unlocked = true;
+               setAchievements(items => items.map(a => a.id === item.id ? { ...a, unlocked: true } : a));
              }
           }}
         ]
