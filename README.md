@@ -7,7 +7,7 @@ A revolutionary React Native mobile application that uses AI, gamification, and 
 
 ## ✨ What Makes BrainRot Different
 
-Unlike traditional "digital detox" apps that simply block content, BrainRot Anti-Gravity takes a holistic approach:
+Unlike traditional "digital detox" apps that simply block content, BrainRot takes a holistic approach:
 
 - **🤖 AI-Powered Detection**: Smart algorithms identify doomscrolling patterns before they start
 - **👥 Community Squads**: Join accountability groups for mutual support
