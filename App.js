@@ -12,6 +12,8 @@ import SquadsScreen from './src/screens/SquadsScreen';
 import ReflectionScreen from './src/screens/ReflectionScreen';
 import InterventionScreen from './src/screens/InterventionScreen';
 import SquadSessionScreen from './src/screens/SquadSessionScreen';
+import Web3ProfileScreen from './src/screens/Web3ProfileScreen';
+import QACommunityScreen from './src/screens/QACommunityScreen';
 
 import DoomscrollingDetector from './src/native/DoomscrollingDetector';
 import { colors } from './src/theme';
@@ -49,14 +51,19 @@ function MainTabs() {
         options={{ tabBarIcon: () => <></>, tabBarLabel: '👥 Squads' }}
       />
       <Tab.Screen 
-        name="Rewards" 
-        component={RewardsScreen} 
-        options={{ tabBarIcon: () => <></>, tabBarLabel: '🎁 Rewards' }}
+        name="Network" 
+        component={QACommunityScreen} 
+        options={{ tabBarIcon: () => <></>, tabBarLabel: '🌐 Network' }}
       />
       <Tab.Screen 
-        name="Vent" 
-        component={ReflectionScreen} 
-        options={{ tabBarIcon: () => <></>, tabBarLabel: '☁️ Space' }}
+        name="Rewards" 
+        component={RewardsScreen} 
+        options={{ tabBarIcon: () => <></>, tabBarLabel: '🎁 Store' }}
+      />
+      <Tab.Screen 
+        name="Profile" 
+        component={Web3ProfileScreen} 
+        options={{ tabBarIcon: () => <></>, tabBarLabel: '👻 Identity' }}
       />
     </Tab.Navigator>
   );
@@ -84,6 +91,10 @@ export default function App() {
             name="FocusSession" 
             component={FocusSessionScreen} 
             options={{ presentation: 'fullScreenModal' }}
+          />
+          <Stack.Screen 
+            name="Vent" 
+            component={ReflectionScreen} 
           />
           <Stack.Screen 
             name="InterventionScreen" 

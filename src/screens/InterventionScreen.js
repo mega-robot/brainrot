@@ -18,7 +18,7 @@ const InterventionScreen = ({ navigation }) => {
   const [isTyping, setIsTyping] = useState(false);
   const scrollViewRef = useRef();
   const showAlert = useAlert();
-  const { addTokens } = useTokens();
+  const { addTokens, walletConnected, connectWallet } = useTokens();
 
   // Initialize Chat Session securely
   const getChatSession = () => {
@@ -103,39 +103,51 @@ CRITICAL INSTRUCTION: Once the user provides a good reflection and explicitly ag
          <Text style={styles.title}>Your brain is exhausted. 🤯</Text>
       </View>
 
-      <ScrollView 
-        style={styles.chatContainer} 
-        contentContainerStyle={{ paddingBottom: 20 }}
-        ref={scrollViewRef}
-        onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
-      >
-        {messages.map((msg) => (
-          <View key={msg.id} style={[styles.messageBubble, msg.role === 'user' ? styles.userBubble : styles.brainBubble]}>
-            <Text style={[styles.messageText, msg.role === 'user' && styles.userMessageText]}>
-               {msg.role === 'brain' ? '🧠 ' : ''}{msg.text}
-            </Text>
-          </View>
-        ))}
-        {isTyping && (
-          <View style={[styles.messageBubble, styles.brainBubble]}>
-            <ActivityIndicator size="small" color={colors.accent} />
-          </View>
-        )}
-      </ScrollView>
+      {!walletConnected ? (
+        <View style={styles.lockedContainer}>
+           <Text style={styles.lockedTitle}>Auth Required 🔒</Text>
+           <Text style={styles.lockedDesc}>You entered a doomscroll loop. To decrypt your intervention chat and regain access, verify your on-chain identity.</Text>
+           <TouchableOpacity style={styles.verifyBtn} onPress={connectWallet}>
+              <Text style={styles.verifyBtnText}>Sign via Wallet 👻</Text>
+           </TouchableOpacity>
+        </View>
+      ) : (
+        <>
+          <ScrollView 
+            style={styles.chatContainer} 
+            contentContainerStyle={{ paddingBottom: 20 }}
+            ref={scrollViewRef}
+            onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+          >
+            {messages.map((msg) => (
+              <View key={msg.id} style={[styles.messageBubble, msg.role === 'user' ? styles.userBubble : styles.brainBubble]}>
+                <Text style={[styles.messageText, msg.role === 'user' && styles.userMessageText]}>
+                   {msg.role === 'brain' ? '🧠 ' : ''}{msg.text}
+                </Text>
+              </View>
+            ))}
+            {isTyping && (
+              <View style={[styles.messageBubble, styles.brainBubble]}>
+                <ActivityIndicator size="small" color={colors.accent} />
+              </View>
+            )}
+          </ScrollView>
 
-      <View style={styles.inputArea}>
-        <TextInput
-          style={styles.textInput}
-          multiline
-          placeholder="I was feeling bored so I opened TikTok..."
-          placeholderTextColor={colors.textLight}
-          value={inputText}
-          onChangeText={setInputText}
-        />
-        <TouchableOpacity style={styles.submitBtn} onPress={sendMessage} disabled={isTyping}>
-          <Text style={styles.submitBtnText}>Talk</Text>
-        </TouchableOpacity>
-      </View>
+          <View style={styles.inputArea}>
+            <TextInput
+              style={styles.textInput}
+              multiline
+              placeholder="I was feeling bored..."
+              placeholderTextColor={colors.textLight}
+              value={inputText}
+              onChangeText={setInputText}
+            />
+            <TouchableOpacity style={styles.submitBtn} onPress={sendMessage} disabled={isTyping}>
+              <Text style={styles.submitBtnText}>Talk</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </KeyboardAvoidingView>
   );
 };
@@ -218,6 +230,39 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  lockedContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 30,
+    backgroundColor: '#FAF9FF',
+  },
+  lockedTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 10,
+  },
+  lockedDesc: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: colors.textLight,
+    lineHeight: 24,
+    marginBottom: 30,
+  },
+  verifyBtn: {
+    backgroundColor: colors.accent,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 25,
+    shadowColor: colors.shadow,
+    elevation: 5,
+  },
+  verifyBtnText: {
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 18,
   }
 });
 
