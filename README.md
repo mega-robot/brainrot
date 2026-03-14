@@ -1,4 +1,4 @@
-# 🧠 Stop the BrainRot Mobile App
+# 🧠 BrainRot
 
 > *Break the doomscrolling cycle. Reclaim your digital freedom.*
 
