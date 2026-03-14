@@ -97,6 +97,7 @@ CRITICAL INSTRUCTION: Once the user provides a good reflection and explicitly ag
     <KeyboardAvoidingView 
       style={globalStyles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
       <View style={styles.header}>
          <BrainCharacter state="Doomscrolling" index={5} />

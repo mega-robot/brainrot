@@ -178,7 +178,7 @@ const SquadsScreen = ({ navigation }) => {
 
       {/* CREATE MODAL */}
       <Modal transparent visible={showCreate} animationType="fade">
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
              <Text style={styles.modalTitle}>Create Squad 🧑‍🤝‍🧑</Text>
              <Text style={styles.modalSub}>Create a squad backed by a smart contract.</Text>
@@ -206,7 +206,7 @@ const SquadsScreen = ({ navigation }) => {
 
       {/* JOIN MODAL */}
       <Modal transparent visible={showJoin} animationType="fade">
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
              <Text style={styles.modalTitle}>Join Squad</Text>
              <Text style={styles.modalSub}>Enter the 6-character smart contract code.</Text>

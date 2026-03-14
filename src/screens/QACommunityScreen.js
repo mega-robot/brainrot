@@ -150,7 +150,7 @@ const QACommunityScreen = () => {
 
       {/* Ask Modal */}
       <Modal transparent visible={askMode} animationType="slide">
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
              <Text style={styles.modalTitle}>Ask the Community 🧠</Text>
              <Text style={styles.modalSub}>Encrypt and post your focus struggle to the blockchain ledger.</Text>
@@ -183,7 +183,7 @@ const QACommunityScreen = () => {
 
       {/* Answer Modal */}
       <Modal transparent visible={!!answerMode} animationType="slide">
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
+        <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
              <Text style={styles.modalTitle}>Provide Insights 💡</Text>
              <Text style={styles.modalSub}>If the author finds this helpful, you win the bounty!</Text>

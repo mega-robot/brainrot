@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, TextInput, KeyboardAvoidingView, ScrollView, Platform } from 'react-native';
 import BrainCharacter from '../components/BrainCharacter';
 import DoomscrollingDetector from '../native/DoomscrollingDetector';
 import { colors, globalStyles } from '../theme';
@@ -10,7 +10,7 @@ const HomeScreen = ({ navigation }) => {
   const [index, setIndex] = useState(100);
   const [stateCat, setStateCat] = useState('Focused');
   const [threshold, setThreshold] = useState('5'); // Default string input
-  
+
   // Fade anim for prompts
   const promptFade = useState(new Animated.Value(0))[0];
   const showAlert = useAlert();
@@ -27,11 +27,11 @@ const HomeScreen = ({ navigation }) => {
         navigation.navigate('InterventionScreen');
         return;
       }
-      
+
       if (data.type === 'STATE_UPDATE') {
         setIndex(Math.floor(data.index));
         setStateCat(data.category);
-        
+
         // If we entered Doomscrolling state naturally via points, gently interrupt
         if (data.category === 'Doomscrolling' && data.index < 10) {
           showGentlePrompt();
@@ -61,7 +61,7 @@ const HomeScreen = ({ navigation }) => {
       duration: 300,
       useNativeDriver: true,
     }).start();
-    DoomscrollingDetector.updateIndex(30); 
+    DoomscrollingDetector.updateIndex(30);
   };
 
   const handleSetThreshold = () => {
@@ -75,14 +75,14 @@ const HomeScreen = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView style={globalStyles.container} behavior="padding">
+    <KeyboardAvoidingView style={globalStyles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined} keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}>
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.header}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <View>
               <Text style={globalStyles.title}>Hey there! ✨</Text>
               <Text style={globalStyles.subtitle}>Your Brainrot Index: {index}/100</Text>
-              <Text style={{fontSize: 12, color: colors.textLight, marginTop: 2}}>Powered by your On-Chain Mental Ledger</Text>
+              <Text style={{ fontSize: 12, color: colors.textLight, marginTop: 2 }}>Powered by your On-Chain Mental Ledger</Text>
             </View>
             <View style={styles.tokenBadge}>
               <Text style={styles.tokenText}>{tokens} ✨</Text>
@@ -110,18 +110,10 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
         </Animated.View>
 
-        <TouchableOpacity 
-          style={styles.focusButton} 
-          onPress={() => navigation.navigate('FocusSession')}
-        >
-          <Text style={styles.focusButtonText}>Start Focus Session 🌙</Text>
-          <Text style={{color: 'rgba(255,255,255,0.8)', fontSize: 12, marginTop: 4, textAlign: 'center'}}>Mine Proof-of-Focus algorithms</Text>
-        </TouchableOpacity>
-
-        {/* Scroll Limit Configuration */}
+        {/* Scroll Limit Configuration - Main Focus */}
         <View style={styles.settingsCard}>
-          <Text style={styles.settingsLabel}>Short-Form Content Limit 🛡️</Text>
-          <Text style={styles.settingsDesc}>Trigger intervention check-in if you doomscroll short-form content (like YT Shorts, IG Reels) over your limit:</Text>
+          <Text style={styles.settingsLabel}>Doomscrolling Limit 🌀</Text>
+          <Text style={styles.settingsDesc}>We will trigger an intervention check-in if you doomscroll short-form content (like YT Shorts, IG Reels etc) over your set limit:</Text>
           <View style={styles.inputRow}>
             <TextInput
               style={styles.thresholdInput}
@@ -131,10 +123,19 @@ const HomeScreen = ({ navigation }) => {
             />
             <Text style={styles.minutesLabel}>Minutes</Text>
             <TouchableOpacity style={styles.setButton} onPress={handleSetThreshold}>
-              <Text style={styles.setButtonText}>Set</Text>
+              <Text style={styles.setButtonText}>Set Limit</Text>
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Focus Study Sessions - Secondary Focus */}
+        <TouchableOpacity
+          style={styles.focusButton}
+          onPress={() => navigation.navigate('FocusSession')}
+        >
+          <Text style={styles.focusButtonText}>Start Focus Session 🌙 </Text>
+          <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, marginTop: 4, textAlign: 'center' }}>Mine Proof-of-Focus algorithms</Text>
+        </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
   );

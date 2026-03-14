@@ -33,6 +33,7 @@ const ReflectionScreen = () => {
     <KeyboardAvoidingView 
       style={globalStyles.container} 
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
     >
       <View style={styles.header}>
         <Text style={globalStyles.title}>Private Space ☁️</Text>
