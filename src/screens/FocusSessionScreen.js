@@ -60,8 +60,8 @@ const FocusSessionScreen = ({ navigation }) => {
       return;
     }
     showAlert(
-      "Start Focus 🌙", 
-      "If you exit this app or switch to another one, your session will immediately terminate. Are you ready?",
+      "Initialize Node 🌙", 
+      "If you exit this app or switch to another one, your proof-of-focus hash will immediately invalidate. Are you ready?",
       [
         { text: "Cancel", style: "cancel" },
         { text: "Fully Commit", onPress: () => {
@@ -90,9 +90,9 @@ const FocusSessionScreen = ({ navigation }) => {
     addTokens(tokensEarned);
     
     showAlert(
-      "Focus Complete! 🌟", 
-      `You earned ${tokensEarned} Focus Tokens for an uninterrupted session!`,
-      [{ text: "Awesome!", onPress: () => navigation.goBack() }]
+      "Block Mined! 🌟", 
+      `You minted ${tokensEarned} ✨ Soulbound Tokens for an uninterrupted focus block!`,
+      [{ text: "Add to Wallet", onPress: () => navigation.goBack() }]
     );
   };
 
@@ -116,9 +116,9 @@ const FocusSessionScreen = ({ navigation }) => {
           // FAILED STATE - SAD FACE
           <View style={styles.failedContainer}>
              <BrainCharacter state="Distracted" index={15} />
-             <Text style={styles.failedTitle}>Session Terminated. Ouch.</Text>
+             <Text style={styles.failedTitle}>Transaction Reverted ❌</Text>
              <Text style={styles.failedDesc}>
-               You exited the app and broke your focus early. No rewards were earned for this session. It's okay, let's try again when you're ready.
+               You exited the app and broke consensus. No tokens were minted for this block. It's okay, let's try again when you're ready.
              </Text>
              <TouchableOpacity 
                 style={styles.retryBtn} 
@@ -137,7 +137,7 @@ const FocusSessionScreen = ({ navigation }) => {
           <View style={styles.activeWrapper}>
             {!isActive ? (
               <View style={styles.setupCard}>
-                <Text style={styles.setupTitle}>How long will you focus?</Text>
+                <Text style={styles.setupTitle}>Set Mining Interval</Text>
                 <View style={styles.inputRow}>
                   <TextInput
                     style={styles.minutesInput}
@@ -154,7 +154,7 @@ const FocusSessionScreen = ({ navigation }) => {
             <View style={[styles.timerCircle, isActive && styles.activeCircle]}>
               <Text style={styles.timerText}>{isActive ? formatTime() : `${inputMinutes}:00`}</Text>
               <Text style={styles.timerSubText}>
-                {isActive ? "Do not switch apps..." : "Ready to focus?"}
+                {isActive ? "Validating node... Do not exit." : "Awaiting blockchain confirmation..."}
               </Text>
             </View>
 
@@ -163,7 +163,7 @@ const FocusSessionScreen = ({ navigation }) => {
               onPress={isActive ? stopTimer : startTimer}
             >
               <Text style={styles.toggleBtnText}>
-                {isActive ? "Give up & Stop 🛑" : "Start Focus 🌙"}
+                {isActive ? "Ragequit Node 🛑" : "Start Algorithm 🌙"}
               </Text>
             </TouchableOpacity>
           </View>

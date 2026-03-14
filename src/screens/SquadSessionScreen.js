@@ -86,8 +86,8 @@ const SquadSessionScreen = ({ route, navigation }) => {
       return;
     }
     showAlert(
-      `Start ${squadName} Sync 🚀`, 
-      `All ${membersCount} members are ready! If ANY of you switch apps, the ENTIRE SQUAD fails. Ready to fully commit?`,
+      `Start ${squadName} Consensus 🚀`, 
+      `All ${membersCount} nodes are ready! If ANY of you switch apps, the ENTIRE DAO fails the block. Ready to fully commit?`,
       [
         { text: "Cancel", style: "cancel" },
         { text: "Commit", onPress: () => {
@@ -113,8 +113,8 @@ const SquadSessionScreen = ({ route, navigation }) => {
     addTokens(tokensEarned);
 
     showAlert(
-      "Squad Victory! 🎉", 
-      `All ${membersCount} members held their focus seamlessly! Each of you earned ${tokensEarned} Focus Tokens!`,
+      "Consensus Reached! 🎉", 
+      `All ${membersCount} nodes held their focus seamlessly! Each of you minted ${tokensEarned} Soulbound Tokens!`,
       [{ text: "Awesome!", onPress: () => navigation.goBack() }]
     );
   };
@@ -140,11 +140,11 @@ const SquadSessionScreen = ({ route, navigation }) => {
           {isFailed ? (
             <View style={styles.failedContainer}>
                <BrainCharacter state="Distracted" index={15} />
-               <Text style={styles.failedTitle}>Squad Terminated. Ouch.</Text>
+               <Text style={styles.failedTitle}>Consensus Broken. Ouch.</Text>
                <Text style={styles.failedDesc}>{failReason}</Text>
                
                <Text style={styles.failStats}>
-                 Tokens Earned: 0 (Squads require perfect sync!)
+                 Tokens Minted: 0 (DAOs require perfect sync!)
                </Text>
                
                <TouchableOpacity 
@@ -162,7 +162,7 @@ const SquadSessionScreen = ({ route, navigation }) => {
             <View style={styles.activeWrapper}>
               {!isActive ? (
                 <View style={styles.setupCard}>
-                  <Text style={styles.setupTitle}>Squad Focus Time</Text>
+                  <Text style={styles.setupTitle}>DAO Focus Block time</Text>
                   <Text style={styles.setupSubtitle}>Tokens = (members * time) / 2</Text>
                   <View style={styles.inputRow}>
                     <TextInput
@@ -184,14 +184,14 @@ const SquadSessionScreen = ({ route, navigation }) => {
               <View style={[styles.timerCircle, isActive && styles.activeCircle]}>
                 <Text style={styles.timerText}>{isActive ? formatTime() : `${inputMinutes}:00`}</Text>
                 <Text style={styles.timerSubText}>
-                  {isActive ? "Hold the line..." : "Awaiting sync..."}
+                  {isActive ? "Hold the line..." : "Awaiting nodes..."}
                 </Text>
               </View>
 
               <TouchableOpacity 
                 style={[styles.toggleBtn, isActive && styles.stopBtn]} 
                 onPress={isActive ? () => {
-                  showAlert("Abandon Squad?", "Stopping now fails the entire group. Sure?", [
+                  showAlert("Abandon DAO?", "Stopping now breaks consensus for everyone. Sure?", [
                     {text: "No", style: "cancel"}, 
                     {text: "Yes, quit", style:"destructive", onPress: () => {
                        setIsActive(false);
@@ -203,7 +203,7 @@ const SquadSessionScreen = ({ route, navigation }) => {
                 } : startTimer}
               >
                 <Text style={styles.toggleBtnText}>
-                  {isActive ? "Abandon Squad 🛑" : "Sync & Start 🌙"}
+                  {isActive ? "Ragequit DAO 🛑" : "Sync & Start 🌙"}
                 </Text>
               </TouchableOpacity>
             </View>

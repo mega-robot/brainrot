@@ -131,17 +131,17 @@ const SquadsScreen = ({ navigation }) => {
   return (
     <View style={globalStyles.container}>
       <View style={styles.header}>
-        <Text style={globalStyles.title}>Focus Squads 🐾</Text>
-        <Text style={globalStyles.subtitle}>Stay accountable with friends!</Text>
+        <Text style={globalStyles.title}>Focus DAOs 🌐</Text>
+        <Text style={globalStyles.subtitle}>Multi-sig accountability with friends!</Text>
       </View>
 
       <View style={styles.btnRow}>
         <TouchableOpacity style={styles.createBtn} onPress={() => setShowCreate(true)}>
-          <Text style={styles.btnText}>Create Squad ✏️</Text>
+          <Text style={styles.btnText}>Create DAO ✏️</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.joinBtn} onPress={() => setShowJoin(true)}>
-          <Text style={styles.btnText}>Join Squad 🤝</Text>
+          <Text style={styles.btnText}>Join DAO 🤝</Text>
         </TouchableOpacity>
       </View>
 
@@ -162,7 +162,7 @@ const SquadsScreen = ({ navigation }) => {
                 style={styles.actionBtn}
                 onPress={() => startGroupSession(item)}
               >
-                <Text style={styles.actionBtnText}>Start Sync 🚀</Text>
+                <Text style={styles.actionBtnText}>Multi-sig Sync 🚀</Text>
               </TouchableOpacity>
               
               <TouchableOpacity 
@@ -180,12 +180,12 @@ const SquadsScreen = ({ navigation }) => {
       <Modal transparent visible={showCreate} animationType="fade">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
-             <Text style={styles.modalTitle}>Create New Squad</Text>
-             <Text style={styles.modalSub}>Give your focus group a cool name!</Text>
+             <Text style={styles.modalTitle}>Deploy New DAO</Text>
+             <Text style={styles.modalSub}>Give your focus collective a cool name!</Text>
              
              <TextInput 
                style={styles.modalInput}
-               placeholder="e.g. Study Buddies 📚"
+               placeholder="e.g. Master Builders 📚"
                placeholderTextColor={colors.textLight}
                value={squadName}
                onChangeText={setSquadName}
@@ -208,12 +208,12 @@ const SquadsScreen = ({ navigation }) => {
       <Modal transparent visible={showJoin} animationType="fade">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
-             <Text style={styles.modalTitle}>Join Squad</Text>
-             <Text style={styles.modalSub}>Enter the 6-character invite code from your friend.</Text>
+             <Text style={styles.modalTitle}>Join DAO</Text>
+             <Text style={styles.modalSub}>Enter the 6-character smart contract code.</Text>
              
              <TextInput 
                style={styles.modalInput}
-               placeholder="e.g. X92BDZ"
+               placeholder="e.g. WEB3XY"
                placeholderTextColor={colors.textLight}
                value={joinCode}
                onChangeText={setJoinCode}

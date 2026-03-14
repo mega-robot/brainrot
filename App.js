@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Alert } from 'react-native';
 
@@ -20,50 +20,50 @@ import { colors } from './src/theme';
 import { AlertProvider } from './src/context/AlertContext';
 import { TokenProvider } from './src/context/TokenContext';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function MainTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textLight,
+        tabBarLabelStyle: { fontSize: 11, fontWeight: 'bold', textTransform: 'none' },
         tabBarStyle: {
           backgroundColor: colors.white,
-          borderTopWidth: 0,
           elevation: 10,
           shadowColor: colors.shadow,
-          height: 60,
-          paddingBottom: 10,
+          paddingTop: 45, // Account for device status bar
+          paddingBottom: 5,
         },
+        tabBarIndicatorStyle: { backgroundColor: colors.accent, height: 4, borderRadius: 2 },
       }}
     >
       <Tab.Screen 
         name="Home" 
         component={HomeScreen} 
-        options={{ tabBarIcon: () => <></>, tabBarLabel: '🧠 Home' }}
+        options={{ tabBarLabel: '🧠 Hub' }}
       />
       <Tab.Screen 
-        name="Squads" 
+        name="DAOs" 
         component={SquadsScreen} 
-        options={{ tabBarIcon: () => <></>, tabBarLabel: '👥 Squads' }}
+        options={{ tabBarLabel: '👥 DAOs' }}
       />
       <Tab.Screen 
         name="Network" 
         component={QACommunityScreen} 
-        options={{ tabBarIcon: () => <></>, tabBarLabel: '🌐 Network' }}
+        options={{ tabBarLabel: '🌐 Net' }}
       />
       <Tab.Screen 
-        name="Rewards" 
+        name="dApps" 
         component={RewardsScreen} 
-        options={{ tabBarIcon: () => <></>, tabBarLabel: '🎁 Store' }}
+        options={{ tabBarLabel: '🎁 dApps' }}
       />
       <Tab.Screen 
-        name="Profile" 
+        name="Identity" 
         component={Web3ProfileScreen} 
-        options={{ tabBarIcon: () => <></>, tabBarLabel: '👻 Identity' }}
+        options={{ tabBarLabel: '👻 Web3' }}
       />
     </Tab.Navigator>
   );
