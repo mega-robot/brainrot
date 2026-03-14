@@ -113,7 +113,7 @@ const SquadsScreen = ({ navigation }) => {
 
   const startGroupSession = (item) => {
     showAlert(
-      "Sync Focus Session 🌙", 
+      "Start Study Session 🌙", 
       `Start a focus session with ${item.name}? If anyone scrolls, the squad loses their streak!`,
       [
         { text: "Not yet", style: "cancel" },
@@ -162,7 +162,7 @@ const SquadsScreen = ({ navigation }) => {
                 style={styles.actionBtn}
                 onPress={() => startGroupSession(item)}
               >
-                <Text style={styles.actionBtnText}>Multi-sig Sync 🚀</Text>
+                <Text style={styles.actionBtnText}>Start Study Session 🚀</Text>
               </TouchableOpacity>
               
               <TouchableOpacity 

@@ -62,11 +62,6 @@ const Web3ProfileScreen = ({ navigation }) => {
 
       {/* Action Links */}
       <View style={styles.linksContainer}>
-        <TouchableOpacity style={styles.linkRow} onPress={() => navigation.navigate('Vent')}>
-          <View style={styles.linkIconBox}><Text>☁️</Text></View>
-          <Text style={styles.linkText}>Private Vent Space</Text>
-          <Text style={styles.linkArrow}>→</Text>
-        </TouchableOpacity>
         
         <TouchableOpacity 
           style={styles.linkRow} 

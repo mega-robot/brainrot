@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -23,9 +24,11 @@ import { TokenProvider } from './src/context/TokenContext';
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function MainTabs() {
+function MainTabs({ route }) {
+  const initialRouteName = route.params?.initialRouteName || 'Home';
   return (
     <Tab.Navigator
+      initialRouteName={initialRouteName}
       screenOptions={{
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textLight,
@@ -61,6 +64,11 @@ function MainTabs() {
         options={{ tabBarLabel: '🎁 Rewards' }}
       />
       <Tab.Screen 
+        name="Vent" 
+        component={ReflectionScreen} 
+        options={{ tabBarLabel: '💭 Vent' }}
+      />
+      <Tab.Screen 
         name="Identity" 
         component={Web3ProfileScreen} 
         options={{ tabBarLabel: '👻 Profile' }}
@@ -70,6 +78,8 @@ function MainTabs() {
 }
 
 export default function App() {
+  const [initialRoute, setInitialRoute] = useState(null);
+
   useEffect(() => {
     // Request permissions (simulate)
     const setupServices = async () => {
@@ -78,23 +88,37 @@ export default function App() {
         Alert.alert("Permissions needed", "We need accessibility permissions to detect doomscrolling patterns");
       }
     };
+    
+    const checkFirstLaunch = async () => {
+      try {
+        const hasLaunched = await AsyncStorage.getItem('hasLaunchedBeforeApp');
+        if (hasLaunched === 'true') {
+          setInitialRoute('Home');
+        } else {
+          await AsyncStorage.setItem('hasLaunchedBeforeApp', 'true');
+          setInitialRoute('Identity');
+        }
+      } catch (error) {
+        setInitialRoute('Home');
+      }
+    };
+    
     setupServices();
+    checkFirstLaunch();
   }, []);
+
+  if (!initialRoute) return null;
 
   return (
     <TokenProvider>
       <AlertProvider>
         <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="MainTabs" component={MainTabs} />
+          <Stack.Screen name="MainTabs" component={MainTabs} initialParams={{ initialRouteName: initialRoute }} />
           <Stack.Screen 
             name="FocusSession" 
             component={FocusSessionScreen} 
             options={{ presentation: 'fullScreenModal' }}
-          />
-          <Stack.Screen 
-            name="Vent" 
-            component={ReflectionScreen} 
           />
           <Stack.Screen 
             name="InterventionScreen" 
