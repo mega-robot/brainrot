@@ -17,6 +17,20 @@ const ReflectionScreen = () => {
     showAlert("Saved 📝", "Your vent is safely stored in this ephemeral space. It is completely private.");
   };
 
+  const clearHistory = () => {
+    showAlert(
+      "Burn it all? 🔥", 
+      "Do you want to permanently delete all your previous reflections?", 
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Burn It", style: "destructive", onPress: () => {
+           setHistory([]);
+           showAlert("Poof! 💨", "Your thoughts have been erased into the void.");
+        }}
+      ]
+    );
+  };
+
   return (
     <KeyboardAvoidingView 
       style={globalStyles.container} 
@@ -42,7 +56,14 @@ const ReflectionScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.historyTitle}>Your Recent Thoughts</Text>
+        <View style={styles.historyHeader}>
+          <Text style={styles.historyTitle}>Your Recent Thoughts</Text>
+          {history.length > 0 && (
+            <TouchableOpacity onPress={clearHistory}>
+              <Text style={styles.clearBtnText}>Burn All 🔥</Text>
+            </TouchableOpacity>
+          )}
+        </View>
         {history.map(item => (
           <View key={item.id} style={styles.historyCard}>
             <Text style={styles.historyText}>{item.text}</Text>
@@ -90,11 +111,22 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
   },
+  historyHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
   historyTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: colors.text,
-    marginBottom: 15,
+  },
+  clearBtnText: {
+    color: colors.danger,
+    fontWeight: 'bold',
+    fontSize: 14,
+    padding: 5,
   },
   historyCard: {
     ...globalStyles.card,

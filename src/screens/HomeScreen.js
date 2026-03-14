@@ -84,7 +84,7 @@ const HomeScreen = ({ navigation }) => {
               <Text style={globalStyles.subtitle}>Your Brainrot Index: {index}/100</Text>
             </View>
             <View style={styles.tokenBadge}>
-              <Text style={styles.tokenText}>{tokens} 🍒</Text>
+              <Text style={styles.tokenText}>{tokens} ✨</Text>
             </View>
           </View>
         </View>

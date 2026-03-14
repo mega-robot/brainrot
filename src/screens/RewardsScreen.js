@@ -6,7 +6,8 @@ import { useTokens } from '../context/TokenContext';
 
 const RewardsScreen = () => {
   const { tokens, spendTokens } = useTokens();
-  const [activeTab, setActiveTab] = useState('Achievements');
+  const [activeTab, setActiveTab] = useState('NFT Treasury 🖼️');
+  const [walletConnected, setWalletConnected] = useState(false);
   const showAlert = useAlert();
 
   const achievements = [
@@ -44,7 +45,12 @@ const RewardsScreen = () => {
                  { text: "Close", style: "cancel" }
                ]);
              } else {
-               showAlert("Success! 🏅", "You have officially minted this achievement to your profile!");
+               const mintMsg = walletConnected 
+                 ? "You have successfully minted this rare NFT achievement to your Web3 wallet address! 🔗" 
+                 : "You have unlocked this badge! Connect your Web3 wallet later to mint it as an NFT.";
+               showAlert("Success! 🏅", mintMsg);
+               // Quick hack to force rerender by mutating the data safely
+               item.unlocked = true;
              }
           }}
         ]
@@ -75,20 +81,54 @@ const RewardsScreen = () => {
     </View>
   );
 
+  const connectWallet = () => {
+    showAlert(
+      "Connect Web3 Wallet 🦊",
+      "Connect your identity to mint achievements as On-Chain NFTs and store your Focus Tokens securely.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Connect MetaMask", onPress: () => {
+           setWalletConnected(true);
+           showAlert("Wallet Linked! 🔗", "Connected account: 0x8F9a...2B1c. Ready to mint NFTs!");
+        }}
+      ]
+    );
+  };
+
   return (
     <View style={globalStyles.container}>
       <View style={styles.header}>
         <Text style={globalStyles.title}>The Market 🎁</Text>
       </View>
 
-      <View style={styles.tokenCard}>
-        <Text style={styles.tokenTitle}>Your Focus Tokens</Text>
-        <Text style={styles.tokenAmount}>{tokens} 🍒</Text>
+      <View style={styles.web3Card}>
+        <View style={styles.web3HeaderRow}>
+           <Text style={styles.tokenTitle}>Soulbound Tokens 🪙</Text>
+           {walletConnected ? (
+             <View style={styles.connectedBadge}>
+               <Text style={styles.connectedText}>🟢 0x8F9a...2B1c</Text>
+             </View>
+           ) : (
+             <TouchableOpacity style={styles.connectBtn} onPress={connectWallet}>
+               <Text style={styles.connectBtnText}>Connect Phantom 👻</Text>
+             </TouchableOpacity>
+           )}
+        </View>
+        <Text style={styles.tokenAmount}>{tokens} ✨</Text>
+        
+        {walletConnected && (
+          <View style={styles.onChainStats}>
+            <Text style={styles.onChainText}>Estimated Value: {(tokens * 0.0012).toFixed(4)} ETH</Text>
+            <TouchableOpacity style={styles.stakeBtn} onPress={() => showAlert("Staking Locked 🔒", "Coming soon! Stake your tokens to earn yield while you focus.")}>
+              <Text style={styles.stakeBtnText}>Stake Tokens</Text>
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <View style={styles.tabsContainer}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.tabsScroll}>
-          {['Achievements', 'Digital Goods', 'Courses'].map(tab => (
+          {['NFT Treasury 🖼️', 'Digital Goods', 'Courses'].map(tab => (
             <TouchableOpacity 
               key={tab} 
               style={[styles.tabBtn, activeTab === tab && styles.activeTabBtn]}
@@ -100,7 +140,7 @@ const RewardsScreen = () => {
         </ScrollView>
       </View>
 
-      {activeTab === 'Achievements' && (
+      {activeTab === 'NFT Treasury 🖼️' && (
         <FlatList
           data={achievements}
           keyExtractor={item => item.id}
@@ -137,26 +177,87 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 10,
   },
-  tokenCard: {
-    backgroundColor: colors.primary,
+  web3Card: {
+    backgroundColor: '#FFEBF5',
     marginHorizontal: 20,
     borderRadius: 24,
     padding: 25,
-    alignItems: 'center',
-    shadowColor: colors.shadow,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.2,
+    shadowRadius: 20,
     elevation: 8,
     marginBottom: 20,
+    borderWidth: 2,
+    borderColor: '#FFD1E8',
+  },
+  web3HeaderRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
   },
   tokenTitle: {
-    color: colors.white,
+    color: colors.primary,
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 5,
+  },
+  connectBtn: {
+    backgroundColor: colors.accent,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
+    borderRadius: 20,
+    shadowColor: colors.shadow,
+    elevation: 3,
+  },
+  connectBtnText: {
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  connectedBadge: {
+    backgroundColor: 'rgba(52, 199, 89, 0.2)',
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: colors.success,
+  },
+  connectedText: {
+    color: colors.success,
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   tokenAmount: {
-    color: colors.white,
-    fontSize: 40,
+    color: colors.primary,
+    fontSize: 44,
+    fontWeight: 'extrabold',
+    marginTop: 5,
+  },
+  onChainStats: {
+    marginTop: 15,
+    paddingTop: 15,
+    borderTopWidth: 1,
+    borderTopColor: '#FFD1E8',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  onChainText: {
+    color: colors.textLight,
     fontWeight: 'bold',
+    fontSize: 13,
+  },
+  stakeBtn: {
+    backgroundColor: colors.primary,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 12,
+  },
+  stakeBtnText: {
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 12,
   },
   tabsContainer: {
     marginBottom: 10,

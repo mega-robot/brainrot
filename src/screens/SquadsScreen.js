@@ -16,6 +16,11 @@ const SquadsScreen = ({ navigation }) => {
 
   const showAlert = useAlert();
 
+  const MOCK_GLOBAL_SQUADS = [
+    { id: 'WEB3XY', code: 'WEB3XY', name: 'Web3 Builder DAO 🌐', members: 42, hours: 2500 },
+    { id: 'FOCUS1', code: 'FOCUS1', name: 'Global Focus Club 🚀', members: 104, hours: 5400 }
+  ];
+
   useEffect(() => {
     loadSquads();
   }, []);
@@ -76,22 +81,34 @@ const SquadsScreen = ({ navigation }) => {
       return;
     }
 
-    // Simulate joining an existing squad from someone else
-    const newSquad = {
-      id: code,
-      code: code,
-      name: `Squad ${code}`,
-      members: Math.floor(Math.random() * 5) + 2, // mock members
-      hours: Math.floor(Math.random() * 50)
-    };
+    const globalSquad = MOCK_GLOBAL_SQUADS.find(s => s.code === code);
+    if (!globalSquad) {
+      showAlert("Doesn't Exist! 🚫", "No squad found with that code. Try 'WEB3XY' or 'FOCUS1' to test!");
+      return;
+    }
 
-    const updatedSquads = [newSquad, ...squads];
+    const updatedSquads = [globalSquad, ...squads];
     saveSquads(updatedSquads);
     
     setShowJoin(false);
     setJoinCode('');
     
-    showAlert("Joined! 🤝", `You successfully joined the squad!`);
+    showAlert("Joined! 🤝", `You successfully joined ${globalSquad.name}!`);
+  };
+
+  const leaveSquad = (codeToLeave) => {
+    showAlert(
+      "Leave Squad? 🚶‍♂️",
+      "Are you sure you want to abandon this group? You'll lose any shared momentum.",
+      [
+        { text: "Cancel", style: "cancel" },
+        { text: "Leave", style: "destructive", onPress: () => {
+           const updatedSquads = squads.filter(s => s.code !== codeToLeave);
+           saveSquads(updatedSquads);
+           showAlert("Left Squad", "You are no longer in that squad.");
+        }}
+      ]
+    );
   };
 
   const startGroupSession = (item) => {
@@ -140,12 +157,21 @@ const SquadsScreen = ({ navigation }) => {
             </View>
             <Text style={styles.squadDesc}>{item.members} members • {item.hours} hrs focused</Text>
             
-            <TouchableOpacity 
-              style={styles.actionBtn}
-              onPress={() => startGroupSession(item)}
-            >
-              <Text style={styles.actionBtnText}>Start Sync Session 🚀</Text>
-            </TouchableOpacity>
+            <View style={styles.squadCardActions}>
+              <TouchableOpacity 
+                style={styles.actionBtn}
+                onPress={() => startGroupSession(item)}
+              >
+                <Text style={styles.actionBtnText}>Start Sync 🚀</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity 
+                style={styles.leaveBtn}
+                onPress={() => leaveSquad(item.code)}
+              >
+                <Text style={styles.leaveBtnText}>Leave</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       />
@@ -279,7 +305,12 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 15,
   },
+  squadCardActions: {
+    flexDirection: 'row',
+    gap: 10,
+  },
   actionBtn: {
+    flex: 1,
     backgroundColor: colors.accent,
     paddingVertical: 12,
     borderRadius: 15,
@@ -289,6 +320,21 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  leaveBtn: {
+    backgroundColor: '#FFEEF0',
+    borderWidth: 1,
+    borderColor: colors.danger,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  leaveBtnText: {
+    color: colors.danger,
+    fontWeight: 'bold',
+    fontSize: 14,
   },
   modalOverlay: {
     flex: 1,
