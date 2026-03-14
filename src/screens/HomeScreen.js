@@ -111,7 +111,7 @@ const HomeScreen = ({ navigation }) => {
         </Animated.View>
 
         {/* Scroll Limit Configuration - Main Focus */}
-        <View style={styles.settingsCard}>
+        <View style={styles.settingsCardPrimary}>
           <Text style={styles.settingsLabel}>Doomscrolling Limit 🌀</Text>
           <Text style={styles.settingsDesc}>We will trigger an intervention check-in if you doomscroll short-form content (like YT Shorts, IG Reels etc) over your set limit:</Text>
           <View style={styles.inputRow}>
@@ -128,13 +128,13 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </View>
 
-        {/* Focus Study Sessions - Secondary Focus */}
         <TouchableOpacity
           style={styles.focusButton}
           onPress={() => navigation.navigate('FocusSession')}
         >
           <Text style={styles.focusButtonText}>Start Focus Session 🌙 </Text>
-          <Text style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, marginTop: 4, textAlign: 'center' }}>Mine Proof-of-Focus algorithms</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.95)', fontSize: 13, marginTop: 4, textAlign: 'center', fontWeight: 'bold' }}>Mine Proof-of-Focus algorithms</Text>
+          <Text style={{ color: 'rgba(255,255,255,0.75)', fontSize: 11, marginTop: 4, textAlign: 'center', paddingHorizontal: 10 }}>Lock your device to passively earn tokens. If you switch to another app, the chain breaks and no tokens are minted.</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>
@@ -222,6 +222,18 @@ const styles = StyleSheet.create({
   },
   focusButtonText: {
     ...globalStyles.buttonText,
+  },
+  settingsCardPrimary: {
+    ...globalStyles.card,
+    marginHorizontal: 20,
+    marginTop: 20,
+    padding: 20,
+    backgroundColor: '#FFF0F5', // Soft blush pink splash
+    borderColor: '#FFD1E8',
+    borderWidth: 2,
+    shadowColor: colors.danger,
+    shadowOpacity: 0.1,
+    elevation: 5,
   },
   settingsCard: {
     ...globalStyles.card,

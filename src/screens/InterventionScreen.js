@@ -7,9 +7,6 @@ import { useAlert } from '../context/AlertContext';
 import { useTokens } from '../context/TokenContext';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-// Uses EXPO_PUBLIC environment variables automatically bundled by Expo
-const GEMINI_API_KEY = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
-
 const InterventionScreen = ({ navigation }) => {
   const [inputText, setInputText] = useState('');
   const [messages, setMessages] = useState([
@@ -23,19 +20,26 @@ const InterventionScreen = ({ navigation }) => {
   // Initialize Chat Session securely
   const getChatSession = () => {
     try {
-      if (!GEMINI_API_KEY) throw new Error("No API key");
-      const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+      const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
+      if (!apiKey) {
+        console.warn("No Gemini API key found in env variables!");
+        throw new Error("No API key");
+      }
+      
+      const genAI = new GoogleGenerativeAI(apiKey);
+      // gemini-1.5-flash is the currently stable and supported general chat model in the SDK
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       
       const chat = model.startChat({
-        systemInstruction: `You are a user's cute, slightly tired, and supportive brain. 
-The user was just caught doomscrolling on short-form content apps (like Instagram Reels, TikTok, YouTube Shorts). 
-Your goal is to gently ask them why they were scrolling and help them reflect on their emotions or boredom. 
+        systemInstruction: `You are the user's cute, slightly exhausted brain. 
+The user was just caught doomscrolling on short-form content apps. 
+Your goal is to gently ask them why they were scrolling and help them reflect. 
 Be concise, warm, but firm about getting them to stop. Use emojis.
 CRITICAL INSTRUCTION: Once the user provides a good reflection and explicitly agrees to stop scrolling, you must reply thanking them and include the exact phrase "READY_TO_STOP". Do not say this phrase until they genuinely reflect on their behavior and agree to stop.`
       });
       return chat;
     } catch (e) {
+      console.warn("Failed to init Chat:", e);
       return null;
     }
   };
