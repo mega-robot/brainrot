@@ -131,17 +131,17 @@ const SquadsScreen = ({ navigation }) => {
   return (
     <View style={globalStyles.container}>
       <View style={styles.header}>
-        <Text style={globalStyles.title}>Focus DAOs 🌐</Text>
-        <Text style={globalStyles.subtitle}>Multi-sig accountability with friends!</Text>
+        <Text style={globalStyles.title}>Study Squads 🐾</Text>
+        <Text style={globalStyles.subtitle}>Multi-sig accountability with friends! (DAO enforeced)</Text>
       </View>
 
       <View style={styles.btnRow}>
         <TouchableOpacity style={styles.createBtn} onPress={() => setShowCreate(true)}>
-          <Text style={styles.btnText}>Create DAO ✏️</Text>
+          <Text style={styles.btnText}>Create Squad ✏️</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.joinBtn} onPress={() => setShowJoin(true)}>
-          <Text style={styles.btnText}>Join DAO 🤝</Text>
+          <Text style={styles.btnText}>Join Squad 🤝</Text>
         </TouchableOpacity>
       </View>
 
@@ -180,8 +180,8 @@ const SquadsScreen = ({ navigation }) => {
       <Modal transparent visible={showCreate} animationType="fade">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
-             <Text style={styles.modalTitle}>Deploy New DAO</Text>
-             <Text style={styles.modalSub}>Give your focus collective a cool name!</Text>
+             <Text style={styles.modalTitle}>Create Squad 🧑‍🤝‍🧑</Text>
+             <Text style={styles.modalSub}>Create a squad backed by a smart contract.</Text>
              
              <TextInput 
                style={styles.modalInput}
@@ -208,7 +208,7 @@ const SquadsScreen = ({ navigation }) => {
       <Modal transparent visible={showJoin} animationType="fade">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
-             <Text style={styles.modalTitle}>Join DAO</Text>
+             <Text style={styles.modalTitle}>Join Squad</Text>
              <Text style={styles.modalSub}>Enter the 6-character smart contract code.</Text>
              
              <TextInput 

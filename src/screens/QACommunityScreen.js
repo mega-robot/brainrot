@@ -41,7 +41,7 @@ const QACommunityScreen = () => {
        }, ...questions]);
        setAskMode(false);
        setNewQuestion('');
-       showAlert("Posted securely! 🌐", `Your question was encrypted and posted to the DAO with a ${cost} token bounty.`);
+       showAlert("Posted securely! 🌐", `Your question was encrypted and posted to the community ledger with a ${cost} token bounty.`);
     } else {
        showAlert("Not enough tokens", `You need ${cost} tokens to post this bounty.`);
     }
@@ -105,7 +105,7 @@ const QACommunityScreen = () => {
       
       {item.solved && (
         <View style={styles.solvedBar}>
-          <Text style={styles.solvedText}>✅ Resolved via DAO Consensus</Text>
+          <Text style={styles.solvedText}>✅ Resolved via Smart Contract</Text>
         </View>
       )}
 
@@ -133,8 +133,8 @@ const QACommunityScreen = () => {
   return (
     <View style={globalStyles.container}>
       <View style={styles.header}>
-        <Text style={globalStyles.title}>DAO Network 🌐</Text>
-        <Text style={globalStyles.subtitle}>Anonymous Web3 Focus Community</Text>
+        <Text style={globalStyles.title}>Q&A Network 🌐</Text>
+        <Text style={globalStyles.subtitle}>Anonymous focus community backed by Web3 smart contracts.</Text>
       </View>
 
       <TouchableOpacity style={styles.askBtn} onPress={() => setAskMode(true)}>
@@ -152,8 +152,8 @@ const QACommunityScreen = () => {
       <Modal transparent visible={askMode} animationType="slide">
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.modalOverlay}>
            <View style={styles.modalContent}>
-             <Text style={styles.modalTitle}>Ask the DAO 🧠</Text>
-             <Text style={styles.modalSub}>Encrypt and post your focus struggle.</Text>
+             <Text style={styles.modalTitle}>Ask the Community 🧠</Text>
+             <Text style={styles.modalSub}>Encrypt and post your focus struggle to the blockchain ledger.</Text>
              
              <TextInput 
                style={styles.modalInputLarge}
@@ -174,7 +174,7 @@ const QACommunityScreen = () => {
                  <Text style={styles.cancelBtnText}>Cancel</Text>
                </TouchableOpacity>
                <TouchableOpacity style={[styles.modalBtn, styles.confirmBtn]} onPress={handleAsk}>
-                 <Text style={styles.confirmBtnText}>Post to Chain</Text>
+                 <Text style={styles.confirmBtnText}>Post Question</Text>
                </TouchableOpacity>
              </View>
            </View>

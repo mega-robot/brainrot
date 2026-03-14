@@ -60,8 +60,8 @@ const FocusSessionScreen = ({ navigation }) => {
       return;
     }
     showAlert(
-      "Initialize Node 🌙", 
-      "If you exit this app or switch to another one, your proof-of-focus hash will immediately invalidate. Are you ready?",
+      "Start Focus 🌙", 
+      "If you exit this app, your proof-of-focus hash will immediately invalidate. Are you ready?",
       [
         { text: "Cancel", style: "cancel" },
         { text: "Fully Commit", onPress: () => {
@@ -116,9 +116,9 @@ const FocusSessionScreen = ({ navigation }) => {
           // FAILED STATE - SAD FACE
           <View style={styles.failedContainer}>
              <BrainCharacter state="Distracted" index={15} />
-             <Text style={styles.failedTitle}>Transaction Reverted ❌</Text>
+             <Text style={styles.failedTitle}>Focus Broken ❌</Text>
              <Text style={styles.failedDesc}>
-               You exited the app and broke consensus. No tokens were minted for this block. It's okay, let's try again when you're ready.
+               You exited the app and broke consensus. Your smart contract reverted, and no tokens were minted.
              </Text>
              <TouchableOpacity 
                 style={styles.retryBtn} 
@@ -137,7 +137,7 @@ const FocusSessionScreen = ({ navigation }) => {
           <View style={styles.activeWrapper}>
             {!isActive ? (
               <View style={styles.setupCard}>
-                <Text style={styles.setupTitle}>Set Mining Interval</Text>
+                <Text style={styles.setupTitle}>Set Focus Time</Text>
                 <View style={styles.inputRow}>
                   <TextInput
                     style={styles.minutesInput}
@@ -163,7 +163,7 @@ const FocusSessionScreen = ({ navigation }) => {
               onPress={isActive ? stopTimer : startTimer}
             >
               <Text style={styles.toggleBtnText}>
-                {isActive ? "Ragequit Node 🛑" : "Start Algorithm 🌙"}
+                {isActive ? "Give up & Stop 🛑" : "Start Focus 🌙"}
               </Text>
             </TouchableOpacity>
           </View>

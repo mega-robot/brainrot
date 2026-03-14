@@ -11,7 +11,8 @@ const Web3ProfileScreen = ({ navigation }) => {
   return (
     <ScrollView style={globalStyles.container} contentContainerStyle={styles.scroll}>
       <View style={styles.header}>
-        <Text style={globalStyles.title}>My Web3 Identity 🪪</Text>
+        <Text style={globalStyles.title}>My Profile 🪪</Text>
+        <Text style={globalStyles.subtitle}>Manage your identity and Web3 connected wallet.</Text>
       </View>
 
       <View style={styles.profileCard}>
@@ -45,7 +46,7 @@ const Web3ProfileScreen = ({ navigation }) => {
 
       {/* Portfolio Stats Section */}
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>On-Chain Portfolio 📊</Text>
+        <Text style={styles.sectionTitle}>My Portfolio 📊</Text>
       </View>
       
       <View style={styles.statsRow}>

@@ -48,22 +48,22 @@ function MainTabs() {
       <Tab.Screen 
         name="DAOs" 
         component={SquadsScreen} 
-        options={{ tabBarLabel: '👥 DAOs' }}
+        options={{ tabBarLabel: '👥 Squads' }}
       />
       <Tab.Screen 
         name="Network" 
         component={QACommunityScreen} 
-        options={{ tabBarLabel: '🌐 Net' }}
+        options={{ tabBarLabel: '🌐 Forum' }}
       />
       <Tab.Screen 
         name="dApps" 
         component={RewardsScreen} 
-        options={{ tabBarLabel: '🎁 dApps' }}
+        options={{ tabBarLabel: '🎁 Rewards' }}
       />
       <Tab.Screen 
         name="Identity" 
         component={Web3ProfileScreen} 
-        options={{ tabBarLabel: '👻 Web3' }}
+        options={{ tabBarLabel: '👻 Profile' }}
       />
     </Tab.Navigator>
   );

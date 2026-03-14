@@ -81,7 +81,8 @@ const HomeScreen = ({ navigation }) => {
           <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
             <View>
               <Text style={globalStyles.title}>Hey there! ✨</Text>
-              <Text style={globalStyles.subtitle}>On-Chain Mental Ledger: {index}/100</Text>
+              <Text style={globalStyles.subtitle}>Your Brainrot Index: {index}/100</Text>
+              <Text style={{fontSize: 12, color: colors.textLight, marginTop: 2}}>Powered by your On-Chain Mental Ledger</Text>
             </View>
             <View style={styles.tokenBadge}>
               <Text style={styles.tokenText}>{tokens} ✨</Text>
@@ -113,13 +114,14 @@ const HomeScreen = ({ navigation }) => {
           style={styles.focusButton} 
           onPress={() => navigation.navigate('FocusSession')}
         >
-          <Text style={styles.focusButtonText}>Mine Proof-of-Focus 🌙</Text>
+          <Text style={styles.focusButtonText}>Start Focus Session 🌙</Text>
+          <Text style={{color: 'rgba(255,255,255,0.8)', fontSize: 12, marginTop: 4, textAlign: 'center'}}>Mine Proof-of-Focus algorithms</Text>
         </TouchableOpacity>
 
         {/* Scroll Limit Configuration */}
         <View style={styles.settingsCard}>
-          <Text style={styles.settingsLabel}>Smart Contract App Limit 🛡️</Text>
-          <Text style={styles.settingsDesc}>Trigger intervention check-in if another app stays active over:</Text>
+          <Text style={styles.settingsLabel}>App Limit Tracker 🛡️</Text>
+          <Text style={styles.settingsDesc}>Trigger intervention check-in if another app stays active over your limit (Smart Contract Enforced):</Text>
           <View style={styles.inputRow}>
             <TextInput
               style={styles.thresholdInput}
