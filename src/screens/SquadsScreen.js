@@ -132,7 +132,7 @@ const SquadsScreen = ({ navigation }) => {
     <View style={globalStyles.container}>
       <View style={styles.header}>
         <Text style={globalStyles.title}>Study Squads 🐾</Text>
-        <Text style={globalStyles.subtitle}>Multi-sig accountability with friends! (DAO enforeced)</Text>
+        <Text style={globalStyles.subtitle}>Multi-sig accountability with friends! (Consensus DAO enforced)</Text>
       </View>
 
       <View style={styles.btnRow}>

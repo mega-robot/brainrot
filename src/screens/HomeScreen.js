@@ -95,10 +95,10 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.statusCard}>
           <Text style={styles.statusTitle}>{stateCat}</Text>
           <Text style={styles.statusDesc}>
-            {stateCat === 'Focused' && "Your mind feels clear and present!"}
-            {stateCat === 'Drifting' && "Getting a bit foggy... Need a break?"}
-            {stateCat === 'Distracted' && "You're constantly switching contexts."}
-            {stateCat === 'Doomscrolling' && "You seem stuck in a loop. Let's pause."}
+            {stateCat === 'Focused' && "Your Neural Node is in peak resonance! ⚡"}
+            {stateCat === 'Drifting' && "Connection dropping... Need a mental sync? ☁️"}
+            {stateCat === 'Distracted' && "Congestion detected. Protocol override suggested."}
+            {stateCat === 'Doomscrolling' && "Emergency Shutdown: Attention Drain detected on-chain."}
           </Text>
         </View>
 
@@ -112,8 +112,11 @@ const HomeScreen = ({ navigation }) => {
 
         {/* Scroll Limit Configuration - Main Focus */}
         <View style={styles.settingsCardPrimary}>
+          <View style={styles.primaryBadge}>
+            <Text style={styles.primaryBadgeText}>PROTOCOL ACTIVE 🛡️</Text>
+          </View>
           <Text style={styles.settingsLabel}>Doomscrolling Limit 🌀</Text>
-          <Text style={styles.settingsDesc}>We will trigger an intervention check-in if you doomscroll short-form content (like YT Shorts, IG Reels etc) over your set limit:</Text>
+          <Text style={styles.settingsDesc}>We will trigger a smart-intervention check-in if your attention hash drops below threshold:</Text>
           <View style={styles.inputRow}>
             <TextInput
               style={styles.thresholdInput}
@@ -228,12 +231,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     marginTop: 20,
     padding: 20,
-    backgroundColor: '#FFF0F5', // Soft blush pink splash
-    borderColor: '#FFD1E8',
-    borderWidth: 2,
-    shadowColor: colors.danger,
-    shadowOpacity: 0.1,
-    elevation: 5,
+    backgroundColor: '#FAF5FF', // Subtle Lavender/Pink splash
+    borderColor: colors.accent,
+    borderWidth: 1.5,
+    shadowColor: colors.accent,
+    shadowOpacity: 0.2,
+    elevation: 8,
+  },
+  primaryBadge: {
+    backgroundColor: colors.accent,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginBottom: 10,
+  },
+  primaryBadgeText: {
+    color: colors.white,
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1,
   },
   settingsCard: {
     ...globalStyles.card,

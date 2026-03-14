@@ -37,7 +37,7 @@ const ReflectionScreen = () => {
     >
       <View style={styles.header}>
         <Text style={globalStyles.title}>Private Space ☁️</Text>
-        <Text style={globalStyles.subtitle}>Vent here. We won't keep it if you don't want us to.</Text>
+        <Text style={globalStyles.subtitle}>Ephemeral Data Encryption. Vent here. We won't keep it if you don't want us to.</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
