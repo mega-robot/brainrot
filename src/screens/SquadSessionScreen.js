@@ -23,9 +23,15 @@ const SquadSessionScreen = ({ route, navigation }) => {
     let interval = null;
     let failTimeout = null;
 
-    if (isActive && !isFailed && timeLeft > 0) {
+    if (isActive && !isFailed) {
       interval = setInterval(() => {
-        setTimeLeft(t => t - 1);
+        setTimeLeft(t => {
+          if (t <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return t - 1;
+        });
       }, 1000);
 
       // Randomly simulate a teammate failing during the session
@@ -38,16 +44,19 @@ const SquadSessionScreen = ({ route, navigation }) => {
           handleTeammateFailed();
         }, failInMs);
       }
-    } else if (timeLeft === 0 && isActive && !isFailed) {
-      clearInterval(interval);
-      handleSuccess();
     }
     
     return () => {
       clearInterval(interval);
       clearTimeout(failTimeout);
     };
-  }, [isActive, isFailed]);
+  }, [isActive, isFailed]); // Run interval once when started
+
+  useEffect(() => {
+    if (timeLeft === 0 && isActive && !isFailed) {
+      handleSuccess();
+    }
+  }, [timeLeft, isActive, isFailed]);
 
   // Real user failure
   useEffect(() => {

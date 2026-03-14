@@ -19,16 +19,25 @@ const FocusSessionScreen = ({ navigation }) => {
 
   useEffect(() => {
     let interval = null;
-    if (isActive && !isFailed && timeLeft > 0) {
+    if (isActive && !isFailed) {
       interval = setInterval(() => {
-        setTimeLeft(timeLeft => timeLeft - 1);
+        setTimeLeft(t => {
+          if (t <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return t - 1;
+        });
       }, 1000);
-    } else if (timeLeft === 0 && isActive && !isFailed) {
-      clearInterval(interval);
-      handleSuccess();
     }
     return () => clearInterval(interval);
-  }, [isActive, isFailed, timeLeft]);
+  }, [isActive, isFailed]);
+
+  useEffect(() => {
+    if (timeLeft === 0 && isActive && !isFailed) {
+      handleSuccess();
+    }
+  }, [timeLeft, isActive, isFailed]);
 
   useEffect(() => {
     // Listen for failure event
