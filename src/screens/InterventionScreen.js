@@ -26,7 +26,16 @@ const InterventionScreen = ({ navigation }) => {
       text: "Hey! You've been scrolling endlessly. I'm exhausted... 🤕 Why are we doomscrolling right now?",
     },
   ]);
+  const [personality, setPersonality] = useState("supportive");
   const [isTyping, setIsTyping] = useState(false);
+
+  const personalities = {
+    supportive: { name: "Supportive 💖", prompt: "You are the user's cute, slightly tired, and supportive brain. Be warm, empathetic, and encouraging. Help them reflect on why they were scrolling." },
+    strict: { name: "Strict 💂‍♂️", prompt: "You are the user's strict, no-nonsense brain. Be firm, slightly authoritative, and stop the excuses. Tell them to get back to work immediately." },
+    sarcastic: { name: "Sarcastic 🙄", prompt: "You are the user's sarcastic and witty brain. Use dry humor and light teasing about their scrolling habits. Be funny but helpful." },
+    optimistic: { name: "Optimistic 🌟", prompt: "You are the user's high-energy, optimistic brain. Focus on the amazing things the user can do once they stop scrolling. Be extremely hype." },
+    wise: { name: "Grandpa 👴", prompt: "You are a wise, loving, and patient grandfatherly brain. Give perspective on how fast time flies and why focus matters." }
+  };
 
   const scrollViewRef = useRef();
 
@@ -37,9 +46,11 @@ const InterventionScreen = ({ navigation }) => {
 
   useEffect(() => {
     if (!apiKey) {
-      console.warn("Gemini API key missing!");
+      console.warn("Gemini API key missing in environment!");
+    } else {
+      console.log("Gemini API Key detected (First 8 chars):", apiKey.substring(0, 8) + "...");
     }
-  }, []);
+  }, [apiKey]);
 
   const scrollToBottom = () => {
     if (scrollViewRef.current) {
@@ -89,66 +100,72 @@ const InterventionScreen = ({ navigation }) => {
     setIsTyping(true);
 
     try {
-      const prompt = `
-You are the user's cute but slightly exhausted brain.
-
-The user was just caught doomscrolling on short-form content apps.
-
-Your job:
-- Ask why they were scrolling
-- Encourage reflection
-- Be warm but firm
-- Use emojis
-
-IMPORTANT:
-If the user genuinely reflects AND agrees to stop scrolling,
-respond with a thank you and include the phrase READY_TO_STOP.
-Do not include READY_TO_STOP otherwise.
-
-User message:
-${userMessage}
-`;
-
-      const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [{ parts: [{ text: prompt }] }],
-          }),
+      const selectedPersonality = personalities[personality] || personalities.supportive;
+      
+      const payload = {
+        system_instruction: {
+          parts: [{ 
+            text: `${selectedPersonality.prompt} 
+            
+            OPERATIONAL INSTRUCTIONS:
+            1. You are talking to a user who was caught doomscrolling. 
+            2. Gently (or based on your personality) ask why they were scrolling.
+            3. Encourage deep reflection.
+            4. Use emojis.
+            5. CRITICAL: If the user genuinely reflects and agrees to stop, include the exact phrase 'READY_TO_STOP' in your final response to authorize them to leave.` 
+          }]
+        },
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: userMessage }]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.8,
+          maxOutputTokens: 200,
         }
-      );
+      };
+
+      // Ensure we hit the 2.5-flash model endpoint specifically
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       const data = await response.json();
+      
+      if (data.error) {
+        console.error("API Response Error Object:", data.error);
+        throw new Error(data.error.message || "API Rejected request");
+      }
 
-      const responseText =
-        data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-        "Hmm... my brain froze for a second.";
-
+      const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm drawing a blank... maybe refresh?";
+      
+      // Secondary check: If the user genuinely reflects, we need to end the intervention.
+      // We'll use a hidden prompt check or look for our magic phrase.
       const cleanedText = responseText.replace(/READY_TO_STOP/gi, "").trim();
 
-      const brainMsg = {
+      setMessages((prev) => [...prev, {
         id: Date.now().toString(),
         role: "brain",
         text: cleanedText,
-      };
-
-      setMessages((prev) => [...prev, brainMsg]);
+      }]);
+      
       setIsTyping(false);
-
       scrollToBottom();
 
       if (responseText.toUpperCase().includes("READY_TO_STOP")) {
-        setTimeout(() => {
-          endIntervention();
-        }, 1500);
+        setTimeout(() => endIntervention(), 1500);
       }
-    } catch (error) {
-      console.log(error);
 
+    } catch (error) {
+      console.error("Gemini Fetch Error:", error);
+      setIsTyping(false);
+      
       setMessages((prev) => [
         ...prev,
         {
@@ -158,14 +175,12 @@ ${userMessage}
         },
       ]);
 
-      setIsTyping(false);
-
-      showAlert(
-        "Brain Connection Error",
-        "Couldn't talk to Gemini right now."
-      );
+      showAlert("Connection Error", "Check your .env or internet connection.");
     }
   };
+
+  const headerScale = Math.max(0.35, 1 - (messages.length - 1) * 0.2);
+  const headerHeight = Math.max(40, 180 - (messages.length - 1) * 45);
 
   return (
     <KeyboardAvoidingView
@@ -173,10 +188,34 @@ ${userMessage}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
     >
-      <View style={styles.header}>
-        <BrainCharacter state="Doomscrolling" index={5} />
-        <Text style={styles.title}>Your brain is exhausted 🤯</Text>
+      <View style={[styles.header, { height: headerHeight, paddingTop: messages.length > 2 ? 30 : 60 }]}>
+        <View style={{ transform: [{ scale: headerScale }] }}>
+          <BrainCharacter state="Doomscrolling" index={5} />
+        </View>
+        {messages.length < 5 && (
+          <Text style={[styles.title, { fontSize: Math.max(14, 22 - (messages.length - 1) * 2) }]}>
+            Your brain is exhausted 🤯
+          </Text>
+        )}
       </View>
+
+      {walletConnected && messages.length === 1 && (
+        <View style={styles.personalityPicker}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pickerScroll}>
+            {Object.keys(personalities).map((key) => (
+              <TouchableOpacity
+                key={key}
+                style={[styles.personalityBtn, personality === key && styles.activePersonalityBtn]}
+                onPress={() => setPersonality(key)}
+              >
+                <Text style={[styles.personalityBtnText, personality === key && styles.activePersonalityBtnText]}>
+                  {personalities[key].name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      )}
 
       {!walletConnected ? (
         <View style={styles.lockedContainer}>
@@ -252,11 +291,11 @@ ${userMessage}
 
 const styles = StyleSheet.create({
   header: {
-    paddingTop: 60,
     alignItems: "center",
-    paddingBottom: 10,
+    justifyContent: "center",
     backgroundColor: colors.background,
     elevation: 5,
+    overflow: 'hidden',
   },
 
   title: {
@@ -371,6 +410,36 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "bold",
     fontSize: 18,
+  },
+  personalityPicker: {
+    backgroundColor: colors.white,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderColor: '#EEEEEE',
+  },
+  pickerScroll: {
+    paddingHorizontal: 15,
+  },
+  personalityBtn: {
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 20,
+    backgroundColor: '#F5F5F5',
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: '#DDDDDD',
+  },
+  activePersonalityBtn: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  personalityBtnText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: colors.text,
+  },
+  activePersonalityBtnText: {
+    color: colors.white,
   },
 });
 
