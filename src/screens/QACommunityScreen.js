@@ -14,7 +14,6 @@ const QACommunityScreen = () => {
   
   const [askMode, setAskMode] = useState(false);
   const [newQuestion, setNewQuestion] = useState('');
-  const [bountyAmount, setBountyAmount] = useState('5');
   
   const [answerMode, setAnswerMode] = useState(null); // stores question ID
   const [newAnswer, setNewAnswer] = useState('');
@@ -27,11 +26,7 @@ const QACommunityScreen = () => {
        showAlert("Web3 Required 🔒", "Connect your Phantom wallet in the Rewards or Profile tab to post anonymously to the ledger.");
        return;
     }
-    const cost = parseInt(bountyAmount, 10);
-    if (isNaN(cost) || cost < 1) {
-       showAlert("Oops", "Please set a valid token bounty for the best answer.");
-       return;
-    }
+    const cost = 5;
     if (newQuestion.trim().length === 0) return;
 
     if (tokens >= cost) {
@@ -143,7 +138,7 @@ const QACommunityScreen = () => {
       </View>
 
       <TouchableOpacity style={styles.askBtn} onPress={() => setAskMode(true)}>
-         <Text style={styles.askBtnText}>+ Ask Question & Set Bounty</Text>
+         <Text style={styles.askBtnText}>+ Ask Question (Costs 5 Tokens)</Text>
       </TouchableOpacity>
 
       <FlatList
@@ -170,15 +165,8 @@ const QACommunityScreen = () => {
              />
              
              <View style={styles.bountyRow}>
-               <Text style={styles.bountyLabel}>Bounty Reward:</Text>
-               <TextInput 
-                 style={styles.bountyInput}
-                 keyboardType="number-pad"
-                 value={bountyAmount}
-                 onChangeText={setBountyAmount}
-                 maxLength={4}
-               />
-               <Text style={styles.bountyTokens}>✨</Text>
+               <Text style={styles.bountyLabel}>Fixed Bounty:</Text>
+               <Text style={styles.bountyTokens}>5 ✨</Text>
              </View>
              
              <View style={styles.modalActions}>

@@ -5,9 +5,7 @@ import { useAlert } from '../context/AlertContext';
 
 const ReflectionScreen = () => {
   const [entry, setEntry] = useState('');
-  const [history, setHistory] = useState([
-    { id: '0', text: 'I felt really overwhelmed by the news feed today. Sticking to my goals.', date: 'Today' }
-  ]);
+  const [history, setHistory] = useState([]);
   const showAlert = useAlert();
 
   const saveEntry = () => {
