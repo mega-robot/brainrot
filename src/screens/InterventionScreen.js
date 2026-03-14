@@ -112,7 +112,9 @@ const InterventionScreen = ({ navigation }) => {
             2. Gently (or based on your personality) ask why they were scrolling.
             3. Encourage deep reflection.
             4. Use emojis.
-            5. CRITICAL: If the user genuinely reflects and agrees to stop, include the exact phrase 'READY_TO_STOP' in your final response to authorize them to leave.` 
+            5. BE CONCISE: Keep responses to 2-3 short paragraphs max.
+            6. NEVER STOP MID-SENTENCE: Ensure every response is a complete thought.
+            7. CRITICAL: If the user genuinely reflects and agrees to stop, include the exact phrase 'READY_TO_STOP' in your final response to authorize them to leave.` 
           }]
         },
         contents: [
@@ -123,7 +125,7 @@ const InterventionScreen = ({ navigation }) => {
         ],
         generationConfig: {
           temperature: 0.8,
-          maxOutputTokens: 200,
+          maxOutputTokens: 1000,
         }
       };
 
