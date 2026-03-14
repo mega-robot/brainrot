@@ -1,15 +1,6 @@
-import { AppState, Platform } from 'react-native';
-import * as Notifications from 'expo-notifications';
+import { AppState, Platform, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-// Configure notifications to show even when the app is in the foreground
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-});
+import * as IntentLauncher from 'expo-intent-launcher';
 
 class DoomscrollingDetector {
   constructor() {
@@ -36,7 +27,7 @@ class DoomscrollingDetector {
     try {
       const storedThreshold = await AsyncStorage.getItem('doomscrollThreshold');
       if (storedThreshold) {
-        this.thresholdMinutes = parseInt(storedThreshold, 10);
+        this.thresholdMinutes = parseFloat(storedThreshold);
       }
     } catch (e) {
       console.log('Error loading settings', e);
@@ -55,10 +46,8 @@ class DoomscrollingDetector {
     if (this.currentState.match(/inactive|background/) && nextAppState === 'active') {
       console.log('App Foregrounded');
 
-      if (this.notificationId) {
-        await Notifications.cancelScheduledNotificationAsync(this.notificationId);
-        this.notificationId = null;
-      }
+      // Clear potentially scheduled timers if they existed
+      this.notificationId = null;
 
       // Check if they were scrolling for too long based on our threshold
       if (this.backgroundTime) {
@@ -87,16 +76,8 @@ class DoomscrollingDetector {
         this.notifySessionFailed();
       }
 
-      // Schedule "Brain is tired" notification after threshold minutes
-      this.notificationId = await Notifications.scheduleNotificationAsync({
-        content: {
-          title: "Are you okay? 🧠",
-          body: `You've been scrolling for over ${this.thresholdMinutes} minutes. Tap me to check in with your brain.`,
-        },
-        trigger: {
-          seconds: this.thresholdMinutes * 60,
-        },
-      });
+      // Note: expo-notifications doesn't work in Expo Go SDK 53+. 
+      // We rely completely on the time difference check in App Foregrounded now!
     }
 
     this.currentState = nextAppState;
@@ -146,9 +127,26 @@ class DoomscrollingDetector {
 
   async requestAndroidPermissions() {
     if (Platform.OS === 'android') {
-      // Real android OS permission prompting mock
-      const { status } = await Notifications.requestPermissionsAsync();
-      return status === 'granted';
+      // Notifications are not supported in Expo Go SDK 53+, so we skip Push request
+      // and only handle our deep system tracking alert.
+      // 2. Open Native App Usage Stats Settings (Usage Access)
+      // This is necessary for deep Android inspection!
+      try {
+        Alert.alert(
+          "Enable App Tracking 📱",
+          "On the next screen, please select 'Brainrot' or 'Expo Go' and turn ON 'Permit usage access' so we can accurately detect when you scroll other apps.",
+          [{ 
+             text: "Open Settings", 
+             onPress: () => {
+               IntentLauncher.startActivityAsync(IntentLauncher.ActivityAction.USAGE_ACCESS_SETTINGS).catch(e => console.log(e));
+             }
+          }]
+        );
+      } catch (e) {
+        console.log("Failed to open usage settings", e);
+      }
+      
+      return true;
     }
     return true;
   }

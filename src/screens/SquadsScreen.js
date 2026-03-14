@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import { colors, globalStyles } from '../theme';
+import { useAlert } from '../context/AlertContext';
 
 const SquadsScreen = () => {
   const [squads, setSquads] = useState([
     { id: '1', name: 'Study Buddies 📚', members: 4, hours: 120 },
     { id: '2', name: 'Anti-Doomscroll Club 🛡️', members: 12, hours: 450 },
   ]);
+  const showAlert = useAlert();
 
   const joinSquad = () => {
-    Alert.prompt(
-      "Join Squad 🤝",
-      "Enter Invite Code:",
-      [
-        { text: "Cancel", style: "cancel" },
-        { text: "Join", onPress: code => Alert.alert("Joined!", `Welcome to squad ${code}`) }
-      ]
-    );
+    showAlert("Joined! 🤝", "You successfully joined the new squad!");
   };
 
   const startGroupSession = (squadName) => {
-    Alert.alert(
+    showAlert(
       "Sync Focus Session 🌙", 
       `Start a 1 hour focus session with ${squadName}? If anyone scrolls, the squad loses their streak!`,
       [
         { text: "Not yet", style: "cancel" },
-        { text: "Yes, start", onPress: () => Alert.alert("Session Started! No distractions!") }
+        { text: "Yes, start", onPress: () => showAlert("Session Started!", "No distractions anywhere!") }
       ]
     );
   };

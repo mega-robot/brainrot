@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated, TextInput, Keyboard
 import BrainCharacter from '../components/BrainCharacter';
 import DoomscrollingDetector from '../native/DoomscrollingDetector';
 import { colors, globalStyles } from '../theme';
+import { useAlert } from '../context/AlertContext';
 
 const HomeScreen = ({ navigation }) => {
   const [index, setIndex] = useState(100);
@@ -11,6 +12,7 @@ const HomeScreen = ({ navigation }) => {
   
   // Fade anim for prompts
   const promptFade = useState(new Animated.Value(0))[0];
+  const showAlert = useAlert();
 
   useEffect(() => {
     // Read the current threshold from the native mock once it loads
@@ -60,11 +62,13 @@ const HomeScreen = ({ navigation }) => {
     DoomscrollingDetector.updateIndex(30); 
   };
 
-  const handleUpdateThreshold = (val) => {
-    setThreshold(val);
-    const num = parseInt(val, 10);
+  const handleSetThreshold = () => {
+    const num = parseFloat(threshold);
     if (!isNaN(num) && num > 0) {
       DoomscrollingDetector.setThreshold(num);
+      showAlert("Limit Set 🛡️", `Tracker will alert you after ${num} minutes of continuous scrolling outside this app. If you don't return before then, you'll trigger an intervention!`);
+    } else {
+      showAlert("Invalid Input", "Please enter a valid number of minutes.");
     }
   };
 
@@ -112,9 +116,12 @@ const HomeScreen = ({ navigation }) => {
               style={styles.thresholdInput}
               keyboardType="number-pad"
               value={threshold}
-              onChangeText={handleUpdateThreshold}
+              onChangeText={setThreshold}
             />
             <Text style={styles.minutesLabel}>Minutes</Text>
+            <TouchableOpacity style={styles.setButton} onPress={handleSetThreshold}>
+              <Text style={styles.setButtonText}>Set</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -227,9 +234,21 @@ const styles = StyleSheet.create({
   },
   minutesLabel: {
     marginLeft: 10,
+    marginRight: 20,
     fontSize: 18,
     fontWeight: 'bold',
     color: colors.text,
+  },
+  setButton: {
+    backgroundColor: colors.success,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 15,
+  },
+  setButtonText: {
+    color: colors.white,
+    fontWeight: 'bold',
+    fontSize: 16,
   }
 });
 

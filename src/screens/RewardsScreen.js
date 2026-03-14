@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, Switch, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Switch } from 'react-native';
 import { colors, globalStyles } from '../theme';
+import { useAlert } from '../context/AlertContext';
 
 const RewardsScreen = () => {
   const [tokens, setTokens] = useState(150); // mock
   const [useWallet, setUseWallet] = useState(false);
+  const showAlert = useAlert();
 
   const rewards = [
     { id: '1', title: 'Unlock Pastel Hat 🧢', cost: 50 },
@@ -14,7 +16,7 @@ const RewardsScreen = () => {
 
   const handlePurchase = (item) => {
     if (tokens >= item.cost) {
-      Alert.alert(
+      showAlert(
         "Unlock Reward? 🎁",
         `Do you want to spend ${item.cost} tokens on ${item.title}?`,
         [
@@ -23,14 +25,14 @@ const RewardsScreen = () => {
         ]
       );
     } else {
-      Alert.alert("Not enough tokens!", "Keep focusing to earn more! 🌙");
+      showAlert("Not enough tokens!", "Keep focusing to earn more! 🌙");
     }
   };
 
   const toggleWallet = (value) => {
     setUseWallet(value);
     if (value) {
-      Alert.alert("Connect Wallet 🪙", "A MetaMask prompt would pop up here. Your tokens will be minted to on-chain XP.");
+      showAlert("Connect Wallet 🪙", "A MetaMask prompt would pop up here. Your tokens will be minted to on-chain XP.");
     }
   };
 

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform, Alert } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { colors, globalStyles } from '../theme';
+import { useAlert } from '../context/AlertContext';
 
 const ReflectionScreen = () => {
   const [entry, setEntry] = useState('');
   const [history, setHistory] = useState([
     { id: '0', text: 'I felt really overwhelmed by the news feed today. Sticking to my goals.', date: 'Today' }
   ]);
+  const showAlert = useAlert();
 
   const saveEntry = () => {
     if (entry.trim().length === 0) return;
     setHistory([{ id: Date.now().toString(), text: entry, date: 'Just now' }, ...history]);
     setEntry('');
-    Alert.alert("Saved 📝", "Your vent is safely stored in this ephemeral space. It is completely private.");
+    showAlert("Saved 📝", "Your vent is safely stored in this ephemeral space. It is completely private.");
   };
 
   return (

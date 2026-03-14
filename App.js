@@ -12,9 +12,9 @@ import SquadsScreen from './src/screens/SquadsScreen';
 import ReflectionScreen from './src/screens/ReflectionScreen';
 import InterventionScreen from './src/screens/InterventionScreen';
 
-// Mock Native Module
 import DoomscrollingDetector from './src/native/DoomscrollingDetector';
 import { colors } from './src/theme';
+import { AlertProvider } from './src/context/AlertContext';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -73,20 +73,22 @@ export default function App() {
   }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="MainTabs" component={MainTabs} />
-        <Stack.Screen 
-          name="FocusSession" 
-          component={FocusSessionScreen} 
-          options={{ presentation: 'fullScreenModal' }}
-        />
-        <Stack.Screen 
-          name="InterventionScreen" 
-          component={InterventionScreen} 
-          options={{ presentation: 'fullScreenModal' }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AlertProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="MainTabs" component={MainTabs} />
+          <Stack.Screen 
+            name="FocusSession" 
+            component={FocusSessionScreen} 
+            options={{ presentation: 'fullScreenModal' }}
+          />
+          <Stack.Screen 
+            name="InterventionScreen" 
+            component={InterventionScreen} 
+            options={{ presentation: 'fullScreenModal' }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </AlertProvider>
   );
 }

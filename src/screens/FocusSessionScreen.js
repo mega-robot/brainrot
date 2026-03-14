@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert, KeyboardAvoidingView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView } from 'react-native';
 import DoomscrollingDetector from '../native/DoomscrollingDetector';
 import BrainCharacter from '../components/BrainCharacter';
 import { colors, globalStyles } from '../theme';
+import { useAlert } from '../context/AlertContext';
 
 const FocusSessionScreen = ({ navigation }) => {
   const [isActive, setIsActive] = useState(false);
@@ -11,6 +12,8 @@ const FocusSessionScreen = ({ navigation }) => {
   // Custom Time Setup
   const [inputMinutes, setInputMinutes] = useState('25');
   const [timeLeft, setTimeLeft] = useState(25 * 60);
+
+  const showAlert = useAlert();
 
   useEffect(() => {
     let interval = null;
@@ -42,10 +45,10 @@ const FocusSessionScreen = ({ navigation }) => {
   const startTimer = () => {
     const mins = parseInt(inputMinutes, 10);
     if (isNaN(mins) || mins <= 0) {
-      Alert.alert("Invalid Time", "Please enter a valid number of minutes.");
+      showAlert("Invalid Time", "Please enter a valid number of minutes.");
       return;
     }
-    Alert.alert(
+    showAlert(
       "Start Focus 🌙", 
       "If you exit this app or switch to another one, your session will immediately terminate. Are you ready?",
       [
@@ -70,9 +73,13 @@ const FocusSessionScreen = ({ navigation }) => {
     setIsActive(false);
     DoomscrollingDetector.setSessionActive(false);
     DoomscrollingDetector.updateIndex(60); 
-    Alert.alert(
+    
+    // Earn 1 token per 1 minute focused!
+    const tokensEarned = parseInt(inputMinutes, 10);
+    
+    showAlert(
       "Focus Complete! 🌟", 
-      "You earned 15 Focus Tokens for an uninterrupted session!",
+      `You earned ${tokensEarned} Focus Tokens for an uninterrupted session!`,
       [{ text: "Awesome!", onPress: () => navigation.goBack() }]
     );
   };
