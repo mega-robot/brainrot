@@ -32,7 +32,7 @@ const InterventionScreen = ({ navigation }) => {
   const personalities = {
     supportive: { name: "Supportive 💖", prompt: "You are the user's cute, slightly tired, and supportive brain. Be warm, empathetic, and encouraging. Help them reflect on why they were scrolling." },
     strict: { name: "Strict 💂‍♂️", prompt: "You are the user's strict, no-nonsense brain. Be firm, slightly authoritative, and stop the excuses. Tell them to get back to work immediately." },
-    sarcastic: { name: "Sarcastic 🙄", prompt: "You are the user's sarcastic and witty brain. Use dry humor and light teasing about their scrolling habits. Be funny but helpful." },
+    sarcastic: { name: "Sarcastic 🙄", prompt: "You are the user's sarcastic and witty brain. Use dry humor and teasing about their scrolling habits. Be funny but helpful." },
     optimistic: { name: "Optimistic 🌟", prompt: "You are the user's high-energy, optimistic brain. Focus on the amazing things the user can do once they stop scrolling. Be extremely hype." },
     wise: { name: "Grandpa 👴", prompt: "You are a wise, loving, and patient grandfatherly brain. Give perspective on how fast time flies and why focus matters." }
   };
@@ -101,10 +101,10 @@ const InterventionScreen = ({ navigation }) => {
 
     try {
       const selectedPersonality = personalities[personality] || personalities.supportive;
-      
+
       const payload = {
         system_instruction: {
-          parts: [{ 
+          parts: [{
             text: `${selectedPersonality.prompt} 
             
             OPERATIONAL INSTRUCTIONS:
@@ -114,7 +114,7 @@ const InterventionScreen = ({ navigation }) => {
             4. Use emojis.
             5. BE CONCISE: Keep responses to 2-3 short paragraphs max.
             6. NEVER STOP MID-SENTENCE: Ensure every response is a complete thought.
-            7. CRITICAL: If the user genuinely reflects and agrees to stop, include the exact phrase 'READY_TO_STOP' in your final response to authorize them to leave.` 
+            7. CRITICAL: If the user genuinely reflects and agrees to stop, include the exact phrase 'READY_TO_STOP' in your final response to authorize them to leave.`
           }]
         },
         contents: [
@@ -139,14 +139,14 @@ const InterventionScreen = ({ navigation }) => {
       });
 
       const data = await response.json();
-      
+
       if (data.error) {
         console.error("API Response Error Object:", data.error);
         throw new Error(data.error.message || "API Rejected request");
       }
 
       const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm drawing a blank... maybe refresh?";
-      
+
       // Secondary check: If the user genuinely reflects, we need to end the intervention.
       // We'll use a hidden prompt check or look for our magic phrase.
       const cleanedText = responseText.replace(/READY_TO_STOP/gi, "").trim();
@@ -156,7 +156,7 @@ const InterventionScreen = ({ navigation }) => {
         role: "brain",
         text: cleanedText,
       }]);
-      
+
       setIsTyping(false);
       scrollToBottom();
 
@@ -167,7 +167,7 @@ const InterventionScreen = ({ navigation }) => {
     } catch (error) {
       console.error("Gemini Fetch Error:", error);
       setIsTyping(false);
-      
+
       setMessages((prev) => [
         ...prev,
         {
