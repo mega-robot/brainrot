@@ -1,4 +1,4 @@
-const apiKey = 'AIzaSyBUVyvTkwcta9eiQEtso63lzMv6nrfhhs8';
+const apiKey = process.env.EXPO_PUBLIC_GEMINI_API_KEY;
 fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + apiKey, {
   method: 'POST',
   headers: {
@@ -8,6 +8,6 @@ fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:
     contents: [{ parts: [{ text: 'Testing ' }] }],
   }),
 })
-.then(res => res.json())
-.then(data => console.log('Response:', JSON.stringify(data, null, 2)))
-.catch(err => console.error('Error:', err));
+  .then(res => res.json())
+  .then(data => console.log('Response:', JSON.stringify(data, null, 2)))
+  .catch(err => console.error('Error:', err));
