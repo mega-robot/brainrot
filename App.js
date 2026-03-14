@@ -10,6 +10,7 @@ import FocusSessionScreen from './src/screens/FocusSessionScreen';
 import RewardsScreen from './src/screens/RewardsScreen';
 import SquadsScreen from './src/screens/SquadsScreen';
 import ReflectionScreen from './src/screens/ReflectionScreen';
+import InterventionScreen from './src/screens/InterventionScreen';
 
 // Mock Native Module
 import DoomscrollingDetector from './src/native/DoomscrollingDetector';
@@ -78,6 +79,11 @@ export default function App() {
         <Stack.Screen 
           name="FocusSession" 
           component={FocusSessionScreen} 
+          options={{ presentation: 'fullScreenModal' }}
+        />
+        <Stack.Screen 
+          name="InterventionScreen" 
+          component={InterventionScreen} 
           options={{ presentation: 'fullScreenModal' }}
         />
       </Stack.Navigator>
