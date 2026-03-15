@@ -1,5 +1,5 @@
 # 🧠 NoMoreBrainRot
-### Attention is the New Currency
+### Reclaim your attention. Mine your focus.
 
 Modern platforms are designed to **steal our attention** through endless reels, shorts, and algorithm-driven feeds. Hours disappear into doomscrolling while tech companies profit from our distraction.
 
