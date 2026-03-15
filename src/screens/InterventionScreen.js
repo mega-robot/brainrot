@@ -109,12 +109,12 @@ const InterventionScreen = ({ navigation }) => {
             
             OPERATIONAL INSTRUCTIONS:
             1. You are talking to a user who was caught doomscrolling. 
-            2. Gently (or based on your personality) ask why they were scrolling.
+            2. Based on your personality ask why they were scrolling.
             3. Encourage deep reflection.
             4. Use emojis.
-            5. BE CONCISE: Keep responses to 2-3 short paragraphs max.
+            5. BE CONCISE: Keep responses to 1 paragraph max.
             6. NEVER STOP MID-SENTENCE: Ensure every response is a complete thought.
-            7. CRITICAL: If the user genuinely reflects and agrees to stop, include the exact phrase 'READY_TO_STOP' in your final response to authorize them to leave.`
+            7. CRITICAL: If the user agrees to stop, include the exact phrase 'READY_TO_STOP' in your final response to authorize them to leave.`
           }]
         },
         contents: [

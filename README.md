@@ -1,121 +1,172 @@
-# 🧠 BrainRot
+# 🧠 NoMoreBrainRot
+### Attention is the New Currency
 
-> *Break the doomscrolling cycle. Reclaim your digital freedom.*
+Modern platforms are designed to **steal our attention** through endless reels, shorts, and algorithm-driven feeds. Hours disappear into doomscrolling while tech companies profit from our distraction.
 
-A revolutionary React Native mobile application that uses AI, gamification, and community support to help users overcome digital addiction and develop healthier social media habits.
+**NoMoreBrainRot flips this model.**
 
+Instead of algorithms mining your attention, **you mine it yourself.**
 
-## ✨ What Makes BrainRot Different
+We built a **Web3-powered attention economy** where focus becomes a valuable resource. Through AI interventions, Proof-of-Focus mining, and decentralized accountability, users reclaim control of their attention.
 
-Unlike traditional "digital detox" apps that simply block content, BrainRot takes a holistic approach:
+---
 
-- **🤖 AI-Powered Detection**: Smart algorithms identify doomscrolling patterns before they start
-- **👥 Community Squads**: Join accountability groups for mutual support
-- **🎮 Gamification**: Earn tokens and unlock rewards for healthy habits
-- **🧠 Personalized Interventions**: AI-tailored strategies based on your behavior
-- **🌐 Web3 Integration**: Decentralized identity and community governance
+# 🚨 The Problem
 
-## 🚀 Quick Start
+Today’s internet is optimized for engagement, not well-being.
 
-### Prerequisites
-- Node.js 18+
-- Expo CLI
-- Android Studio (for Android dev)
-- Xcode (for iOS dev, macOS only)
+```
+Open phone → Check notification → Watch reels → Doomscroll for an hour
+```
 
-### Installation
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd brainrot
+Traditional productivity tools rely on timers and blockers, but they lack:
 
-# Install dependencies
+- real incentives  
+- social accountability  
+- meaningful rewards  
+
+Focus becomes a **temporary behavior**, not a **valuable asset**.
+
+---
+
+# 💡 Our Solution
+
+NoMoreBrainRot introduces **Proof-of-Focus**, a system where attention becomes a mineable asset.
+
+Users earn rewards for maintaining focus and breaking doomscroll loops.
+
+---
+
+# ⚙️ Key Features
+
+## 📊 Brainrot Index
+A real-time metric that detects doomscrolling behavior based on scrolling patterns, app switching, and short-form content usage.
+
+---
+
+## 🧠 AI Intervention
+When doomscrolling is detected, an AI “brain” intervenes and prompts users to reflect on their behavior.
+
+Users can interact with different personalities such as:
+
+- supportive mentor  
+- strict coach  
+- sarcastic critic  
+- optimistic friend  
+- wise old grandpa  
+
+The goal is **self-awareness rather than punishment**.
+
+---
+
+## ⛏️ Proof-of-Focus Mining
+Users start **focus sessions** to mine tokens.
+
+If the user leaves the session early, the reward is invalidated.
+
+```
+Attention = Hash Power
+Focus Session = Mining
+Tokens = Reward
+```
+
+---
+
+## 🐾 Study Squads (Multi-Sig Accountability)
+Users can form study squads where focus sessions require **group consensus**.
+
+If everyone completes the session → rewards are granted.  
+If one member breaks focus → the session fails.
+
+```
+Tokens = (Participants × Study Time) / 2
+```
+
+This creates shared accountability.
+
+---
+
+## 🌐 Tokenized Community Forum
+Users can ask questions about focus, productivity, or digital habits by staking tokens.
+
+The best answer receives the staked tokens, creating a **peer-driven support network**.
+
+---
+
+## 🎁 Focus Rewards
+Tokens can be redeemed for productivity tools such as:
+
+- Notion planners  
+- study templates  
+- productivity resources  
+- course discounts  
+
+The system rewards **discipline instead of distraction**.
+
+---
+
+## 🪪 Web3 Identity
+Users can connect a wallet to mint **Soulbound NFT achievements**, representing verifiable proof of discipline.
+
+Examples include:
+
+- First Focus Session  
+- Doomscroll Breaker  
+- 7-Day Focus Streak  
+- Deep Work Milestone  
+
+These NFTs are non-transferable and act as **permanent proof of focus**.
+
+---
+
+## 🧘 Private Vent Space
+Users can write down distracting thoughts before starting a focus session and burn them permanently.
+
+This space is **private and ephemeral**, allowing users to clear their minds before focusing.
+
+---
+
+# 🔁 Example Flow
+
+1. User begins doomscrolling  
+2. Brainrot Index spikes  
+3. AI intervention appears  
+4. User reflects and stops scrolling  
+5. Focus session begins  
+6. Tokens are mined and achievements unlocked  
+
+---
+
+# 🚀 Vision
+
+NoMoreBrainRot aims to build a **decentralized attention economy** where users reclaim control of their focus and turn discipline into measurable value.
+
+---
+
+# 🏗 Running the Project
+
+Clone the repository:
+
+```
+git clone https://github.com/mega-robot/brainrot.git
+```
+
+Install dependencies:
+
+```
 npm install
+```
 
-# Start the development server
+Run the development server:
+
+```
 npm start
 ```
 
-### Running on Devices
-```bash
-# Android emulator/device
-npm run android
+Open the project using **Expo Go** on your mobile device.
 
-# iOS simulator/device (macOS only)
-npm run ios
+---
 
-# Web browser
-npm run web
-```
+# 🧠 Tagline
 
-## 📱 App Features
-
-### Core Screens
-| Screen | Icon | Description |
-|--------|------|-------------|
-| **Hub** | 🧠 | Central dashboard with activity overview and quick actions |
-| **Squads** | 👥 | Create or join community groups for accountability |
-| **Forum** | 🌐 | Q&A community for support and discussions |
-| **Prizes** | 🎁 | Rewards system with token-based achievements |
-| **Vent** | 💭 | Safe space for reflection and emotional processing |
-| **Profile** | 👻 | Web3 identity, stats, and personal achievements |
-
-### Special Features
-- **Focus Sessions**: Guided meditation and productivity sessions
-- **Intervention System**: Real-time AI interventions during risky behavior
-- **Token Economy**: Earn, trade, and spend tokens within the ecosystem
-- **Doomscrolling Detection**: Native Android module for pattern recognition
-
-## 🏗️ Architecture
-
-```
-brainrot/
-├── 📱 App.js                 # Main navigation & app structure
-├── ⚙️ app.json              # Expo configuration
-├── 📦 package.json          # Dependencies & scripts
-├── 🚀 index.js              # App entry point
-├── 🎨 assets/               # Static assets & media
-├── 🧩 src/
-│   ├── 🧱 components/       # Reusable UI components
-│   │   ├── BrainCharacter.js    # Animated brain mascot
-│   │   └── KawaiiAlert.js       # Cute notification alerts
-│   ├── 📊 context/          # Global state management
-│   │   ├── AlertContext.js      # Alert system state
-│   │   └── TokenContext.js      # Token economy state
-│   ├── 📱 native/           # Platform-specific modules
-│   │   └── DoomscrollingDetector.js
-│   ├── 📱 screens/          # Main app screens
-│   │   ├── HomeScreen.js
-│   │   ├── FocusSessionScreen.js
-│   │   ├── SquadsScreen.js
-│   │   └── [8 more screens...]
-│   └── 🎨 theme.js          # Design system & colors
-└── 🤖 test_gemini.js        # AI integration testing
-```
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **React Native 0.81.5** - Cross-platform mobile framework
-- **Expo SDK 54** - Development platform and services
-- **React Navigation 7** - Navigation and routing
-- **Reanimated 4** - Smooth animations and gestures
-
-### AI & Data
-- **Google Generative AI** - Personalized interventions and content
-- **AsyncStorage** - Local data persistence
-- **Context API** - Global state management
-
-### Development
-- **TypeScript** - Type safety (planned migration)
-- **ESLint** - Code quality and consistency
-- **Prettier** - Code formatting
-
-## 🔧 Configuration
-
-### Environment Setup
-Create a `.env` file in the root directory:
-```env
-GOOGLE_AI_API_KEY=your_gemini_api_key_here
-EXPO_PUBLIC_API_URL=https://api.brainrot.app
-```
+**Attention is the New Currency.**

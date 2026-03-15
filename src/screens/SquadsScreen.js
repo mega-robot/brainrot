@@ -6,11 +6,11 @@ import { useAlert } from '../context/AlertContext';
 
 const SquadsScreen = ({ navigation }) => {
   const [squads, setSquads] = useState([]);
-  
+
   // Modals state
   const [showCreate, setShowCreate] = useState(false);
   const [showJoin, setShowJoin] = useState(false);
-  
+
   const [squadName, setSquadName] = useState('');
   const [joinCode, setJoinCode] = useState('');
 
@@ -40,7 +40,7 @@ const SquadsScreen = ({ navigation }) => {
     setSquads(newSquads);
     try {
       await AsyncStorage.setItem('userSquads', JSON.stringify(newSquads));
-    } catch (e) {}
+    } catch (e) { }
   };
 
   const handleCreateSquad = () => {
@@ -48,10 +48,10 @@ const SquadsScreen = ({ navigation }) => {
       showAlert("Oops!", "Please enter a name for your squad.");
       return;
     }
-    
+
     // Generate a 6-character random alphanumeric code
     const newCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-    
+
     const newSquad = {
       id: newCode,
       code: newCode,
@@ -62,10 +62,10 @@ const SquadsScreen = ({ navigation }) => {
 
     const updatedSquads = [newSquad, ...squads];
     saveSquads(updatedSquads);
-    
+
     setShowCreate(false);
     setSquadName('');
-    
+
     showAlert("Squad Created! 🎉", `Your squad is ready. Share this invite code with friends: ${newCode}`);
   };
 
@@ -89,10 +89,10 @@ const SquadsScreen = ({ navigation }) => {
 
     const updatedSquads = [globalSquad, ...squads];
     saveSquads(updatedSquads);
-    
+
     setShowJoin(false);
     setJoinCode('');
-    
+
     showAlert("Joined! 🤝", `You successfully joined ${globalSquad.name}!`);
   };
 
@@ -102,18 +102,20 @@ const SquadsScreen = ({ navigation }) => {
       "Are you sure you want to abandon this group? You'll lose any shared momentum.",
       [
         { text: "Cancel", style: "cancel" },
-        { text: "Leave", style: "destructive", onPress: () => {
-           const updatedSquads = squads.filter(s => s.code !== codeToLeave);
-           saveSquads(updatedSquads);
-           showAlert("Left Squad", "You are no longer in that squad.");
-        }}
+        {
+          text: "Leave", style: "destructive", onPress: () => {
+            const updatedSquads = squads.filter(s => s.code !== codeToLeave);
+            saveSquads(updatedSquads);
+            showAlert("Left Squad", "You are no longer in that squad.");
+          }
+        }
       ]
     );
   };
 
   const startGroupSession = (item) => {
     showAlert(
-      "Start Study Session 🌙", 
+      "Start Study Session 🌙",
       `Start a focus session with ${item.name}? If anyone scrolls, the squad loses their streak!`,
       [
         { text: "Not yet", style: "cancel" },
@@ -132,14 +134,14 @@ const SquadsScreen = ({ navigation }) => {
     <View style={globalStyles.container}>
       <View style={styles.header}>
         <Text style={globalStyles.title}>Study Squads 🐾</Text>
-        <Text style={globalStyles.subtitle}>Multi-sig accountability with friends! (Consensus DAO enforced)</Text>
+        <Text style={globalStyles.subtitle}>Multi-sig accountability with friends! (consensus-based focus groups)</Text>
       </View>
 
       <View style={styles.btnRow}>
         <TouchableOpacity style={styles.createBtn} onPress={() => setShowCreate(true)}>
           <Text style={styles.btnText}>Create Squad ✏️</Text>
         </TouchableOpacity>
-        
+
         <TouchableOpacity style={styles.joinBtn} onPress={() => setShowJoin(true)}>
           <Text style={styles.btnText}>Join Squad 🤝</Text>
         </TouchableOpacity>
@@ -152,20 +154,20 @@ const SquadsScreen = ({ navigation }) => {
         renderItem={({ item }) => (
           <View style={[globalStyles.card, { marginHorizontal: 20 }]}>
             <View style={styles.cardHeader}>
-               <Text style={styles.squadName}>{item.name}</Text>
-               <Text style={styles.squadCode}>Code: {item.code}</Text>
+              <Text style={styles.squadName}>{item.name}</Text>
+              <Text style={styles.squadCode}>Code: {item.code}</Text>
             </View>
             <Text style={styles.squadDesc}>{item.members} members • {item.hours} hrs focused</Text>
-            
+
             <View style={styles.squadCardActions}>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.actionBtn}
                 onPress={() => startGroupSession(item)}
               >
                 <Text style={styles.actionBtnText}>Start Study Session 🚀</Text>
               </TouchableOpacity>
-              
-              <TouchableOpacity 
+
+              <TouchableOpacity
                 style={styles.leaveBtn}
                 onPress={() => leaveSquad(item.code)}
               >
@@ -179,57 +181,57 @@ const SquadsScreen = ({ navigation }) => {
       {/* CREATE MODAL */}
       <Modal transparent visible={showCreate} animationType="fade">
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} style={styles.modalOverlay}>
-           <View style={styles.modalContent}>
-             <Text style={styles.modalTitle}>Create Squad 🧑‍🤝‍🧑</Text>
-             <Text style={styles.modalSub}>Create a squad backed by a smart contract.</Text>
-             
-             <TextInput 
-               style={styles.modalInput}
-               placeholder="e.g. Master Builders 📚"
-               placeholderTextColor={colors.textLight}
-               value={squadName}
-               onChangeText={setSquadName}
-               maxLength={25}
-             />
-             
-             <View style={styles.modalActions}>
-               <TouchableOpacity style={[styles.modalBtn, styles.cancelBtn]} onPress={() => setShowCreate(false)}>
-                 <Text style={styles.cancelBtnText}>Cancel</Text>
-               </TouchableOpacity>
-               <TouchableOpacity style={[styles.modalBtn, styles.confirmBtn]} onPress={handleCreateSquad}>
-                 <Text style={styles.confirmBtnText}>Create</Text>
-               </TouchableOpacity>
-             </View>
-           </View>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Create Squad 🧑‍🤝‍🧑</Text>
+            <Text style={styles.modalSub}>Create a squad backed by a smart contract.</Text>
+
+            <TextInput
+              style={styles.modalInput}
+              placeholder="e.g. Master Builders 📚"
+              placeholderTextColor={colors.textLight}
+              value={squadName}
+              onChangeText={setSquadName}
+              maxLength={25}
+            />
+
+            <View style={styles.modalActions}>
+              <TouchableOpacity style={[styles.modalBtn, styles.cancelBtn]} onPress={() => setShowCreate(false)}>
+                <Text style={styles.cancelBtnText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.modalBtn, styles.confirmBtn]} onPress={handleCreateSquad}>
+                <Text style={styles.confirmBtnText}>Create</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </KeyboardAvoidingView>
       </Modal>
 
       {/* JOIN MODAL */}
       <Modal transparent visible={showJoin} animationType="fade">
         <KeyboardAvoidingView behavior="padding" keyboardVerticalOffset={80} style={styles.modalOverlay}>
-           <View style={styles.modalContent}>
-             <Text style={styles.modalTitle}>Join Squad</Text>
-             <Text style={styles.modalSub}>Enter the 6-character smart contract code.</Text>
-             
-             <TextInput 
-               style={styles.modalInput}
-               placeholder="e.g. WEB3XY"
-               placeholderTextColor={colors.textLight}
-               value={joinCode}
-               onChangeText={setJoinCode}
-               maxLength={6}
-               autoCapitalize="characters"
-             />
-             
-             <View style={styles.modalActions}>
-               <TouchableOpacity style={[styles.modalBtn, styles.cancelBtn]} onPress={() => setShowJoin(false)}>
-                 <Text style={styles.cancelBtnText}>Cancel</Text>
-               </TouchableOpacity>
-               <TouchableOpacity style={[styles.modalBtn, styles.confirmBtn]} onPress={handleJoinSquad}>
-                 <Text style={styles.confirmBtnText}>Join</Text>
-               </TouchableOpacity>
-             </View>
-           </View>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Join Squad</Text>
+            <Text style={styles.modalSub}>Enter the 6-character smart contract code.</Text>
+
+            <TextInput
+              style={styles.modalInput}
+              placeholder="e.g. WEB3XY"
+              placeholderTextColor={colors.textLight}
+              value={joinCode}
+              onChangeText={setJoinCode}
+              maxLength={6}
+              autoCapitalize="characters"
+            />
+
+            <View style={styles.modalActions}>
+              <TouchableOpacity style={[styles.modalBtn, styles.cancelBtn]} onPress={() => setShowJoin(false)}>
+                <Text style={styles.cancelBtnText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.modalBtn, styles.confirmBtn]} onPress={handleJoinSquad}>
+                <Text style={styles.confirmBtnText}>Join</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </KeyboardAvoidingView>
       </Modal>
 

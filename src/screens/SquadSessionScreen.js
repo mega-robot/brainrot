@@ -8,11 +8,11 @@ import { useTokens } from '../context/TokenContext';
 
 const SquadSessionScreen = ({ route, navigation }) => {
   const { squadName, membersCount } = route.params || { squadName: "Unknown Squad", membersCount: 1 };
-  
+
   const [isActive, setIsActive] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
   const [failReason, setFailReason] = useState("");
-  
+
   const [inputMinutes, setInputMinutes] = useState('25');
   const [timeLeft, setTimeLeft] = useState(25 * 60);
 
@@ -45,7 +45,7 @@ const SquadSessionScreen = ({ route, navigation }) => {
         }, failInMs);
       }
     }
-    
+
     return () => {
       clearInterval(interval);
       clearTimeout(failTimeout);
@@ -86,17 +86,19 @@ const SquadSessionScreen = ({ route, navigation }) => {
       return;
     }
     showAlert(
-      `Start ${squadName} Consensus 🚀`, 
-      `All ${membersCount} nodes are ready! If ANY of you switch apps, the ENTIRE DAO fails the block. Ready to fully commit?`,
+      `Start ${squadName} Consensus 🚀`,
+      `All ${membersCount} nodes are ready! If ANY of you switch apps, the ENTIRE SQUAD fails the block. Ready to fully commit?`,
       [
         { text: "Cancel", style: "cancel" },
-        { text: "Commit", onPress: () => {
+        {
+          text: "Commit", onPress: () => {
             setTimeLeft(mins * 60);
             setIsActive(true);
             setIsFailed(false);
             setFailReason("");
             DoomscrollingDetector.setSessionActive(true);
-        }}
+          }
+        }
       ]
     );
   };
@@ -104,16 +106,16 @@ const SquadSessionScreen = ({ route, navigation }) => {
   const handleSuccess = () => {
     setIsActive(false);
     DoomscrollingDetector.setSessionActive(false);
-    DoomscrollingDetector.updateIndex(60); 
-    
+    DoomscrollingDetector.updateIndex(60);
+
     const mins = parseInt(inputMinutes, 10);
     // Reward multiplier: (squad size * time) / 2
     const tokensEarned = Math.floor((membersCount * mins) / 2);
-    
+
     addTokens(tokensEarned);
 
     showAlert(
-      "Consensus Reached! 🎉", 
+      "Consensus Reached! 🎉",
       `All ${membersCount} nodes held their focus seamlessly! Each of you minted ${tokensEarned} Soulbound Tokens!`,
       [{ text: "Awesome!", onPress: () => navigation.goBack() }]
     );
@@ -136,33 +138,33 @@ const SquadSessionScreen = ({ route, navigation }) => {
 
         <View style={styles.content}>
           <Text style={styles.topSquadText}>{squadName} Session 🌟</Text>
-          
+
           {isFailed ? (
             <View style={styles.failedContainer}>
-               <BrainCharacter state="Distracted" index={15} />
-               <Text style={styles.failedTitle}>Consensus Broken. Ouch.</Text>
-               <Text style={styles.failedDesc}>{failReason}</Text>
-               
-               <Text style={styles.failStats}>
-                 Tokens Minted: 0 (DAOs require perfect sync!)
-               </Text>
-               
-               <TouchableOpacity 
-                  style={styles.retryBtn} 
-                  onPress={() => {
-                    setIsFailed(false);
-                    setIsActive(false);
-                    setTimeLeft(parseInt(inputMinutes, 10) * 60);
-                  }}
-                >
-                  <Text style={styles.retryBtnText}>Gather Squad & Retry</Text>
-               </TouchableOpacity>
+              <BrainCharacter state="Distracted" index={15} />
+              <Text style={styles.failedTitle}>Consensus Broken. Ouch.</Text>
+              <Text style={styles.failedDesc}>{failReason}</Text>
+
+              <Text style={styles.failStats}>
+                Tokens Minted: 0 (Squads require perfect sync!)
+              </Text>
+
+              <TouchableOpacity
+                style={styles.retryBtn}
+                onPress={() => {
+                  setIsFailed(false);
+                  setIsActive(false);
+                  setTimeLeft(parseInt(inputMinutes, 10) * 60);
+                }}
+              >
+                <Text style={styles.retryBtnText}>Gather Squad & Retry</Text>
+              </TouchableOpacity>
             </View>
           ) : (
             <View style={styles.activeWrapper}>
               {!isActive ? (
                 <View style={styles.setupCard}>
-                  <Text style={styles.setupTitle}>DAO Focus Block time</Text>
+                  <Text style={styles.setupTitle}>Squad Focus Block time</Text>
                   <Text style={styles.setupSubtitle}>Tokens = (members * time) / 2</Text>
                   <View style={styles.inputRow}>
                     <TextInput
@@ -188,22 +190,24 @@ const SquadSessionScreen = ({ route, navigation }) => {
                 </Text>
               </View>
 
-              <TouchableOpacity 
-                style={[styles.toggleBtn, isActive && styles.stopBtn]} 
+              <TouchableOpacity
+                style={[styles.toggleBtn, isActive && styles.stopBtn]}
                 onPress={isActive ? () => {
-                  showAlert("Abandon DAO?", "Stopping now breaks consensus for everyone. Sure?", [
-                    {text: "No", style: "cancel"}, 
-                    {text: "Yes, quit", style:"destructive", onPress: () => {
-                       setIsActive(false);
-                       setIsFailed(true);
-                       setFailReason("You forcibly ended the session early. The squad gets nothing!");
-                       DoomscrollingDetector.setSessionActive(false);
-                    }}
+                  showAlert("Abandon squad?", "Stopping now breaks consensus for everyone. Sure?", [
+                    { text: "No", style: "cancel" },
+                    {
+                      text: "Yes, quit", style: "destructive", onPress: () => {
+                        setIsActive(false);
+                        setIsFailed(true);
+                        setFailReason("You forcibly ended the session early. The squad gets nothing!");
+                        DoomscrollingDetector.setSessionActive(false);
+                      }
+                    }
                   ]);
                 } : startTimer}
               >
                 <Text style={styles.toggleBtnText}>
-                  {isActive ? "Ragequit DAO 🛑" : "Sync & Start 🌙"}
+                  {isActive ? "Ragequit Squad 🛑" : "Sync & Start 🌙"}
                 </Text>
               </TouchableOpacity>
             </View>
